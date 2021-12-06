@@ -1,6 +1,6 @@
 // Global imports -
 import * as THREE from 'three';
-import TWEEN from '@tweenjs/tween.js';
+import anime from 'animejs';
 
 // Local imports -
 // Components
@@ -22,14 +22,62 @@ import Model from './model/model';
 import Interaction from './managers/interaction';
 import DatGUI from './managers/datGUI';
 
+//Other
+import Events from './events';
+import vars from './vars';
+
+//Elements
+import Globe from './elements/globe';
+import Earth from './elements/earth';
+import Stars from './elements/stars';
+import Platform from './elements/platform';
+import Timeline from './timeline';
+import Overlay from './overlay';
+
 // data
 import Config from './../data/config';
 // -- End of imports
 
-// This class instantiates and ties all of the components together, starts the loading process and renders the main loop
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass';
+import { CopyShader } from 'three/examples/jsm/shaders/CopyShader.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { BokehPass } from 'three/examples/jsm/postprocessing/BokehPass.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { GammaCorrectionShader } from 'three/examples/jsm/shaders/GammaCorrectionShader.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { FilmGrainShader } from './helpers/FilmGrainShader.js';
+import { LensDistortionShader } from './helpers/LensDistortionShader.js';
+
+var composer, composer2, renderPass, renderPass2, distortPass, grainPass, fxaaPass, bloomPass;
+
+var params = {
+  enableNoise: true,
+  noiseSpeed: 0.02,
+  noiseIntensity: 0.025,
+
+  enableDistortion: true,
+  baseIor: 1.0,
+  bandOffset: 0.0,
+  jitterIntensity: 1.0,
+  samples: 7,
+
+  exposure: .01,
+  bloomStrength: .05,
+  bloomThreshold: 0.1,
+  bloomRadius: 0.1,
+};
+
+var activeScene = 1;
+
+const bloomLayer = new THREE.Layers();
+bloomLayer.set(1);
+
 export default class Main {
   constructor(container) {
-    // Set container property to container element
+
+    vars.main = this;
+    
     this.container = container;
 
     // Start Three clock
@@ -38,6 +86,10 @@ export default class Main {
     // Main scene creation
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(Config.fog.color, Config.fog.near);
+
+    // Main scene creation
+    this.scene2 = new THREE.Scene();
+    this.scene2.fog = new THREE.FogExp2(Config.fog.color, Config.fog.near);
 
     // Get Device Pixel Ratio first for retina
     if(window.devicePixelRatio) {
@@ -51,15 +103,90 @@ export default class Main {
     this.camera = new Camera(this.renderer.threeRenderer);
     this.controls = new Controls(this.camera.threeCamera, container);
     this.light = new Light(this.scene);
+    this.light2 = new Light(this.scene2);
+
+    // Render Pass Setup
+    renderPass = new RenderPass( this.scene, this.camera.threeCamera );
+    renderPass2 = new RenderPass( this.scene2, this.camera.threeCamera );
+    grainPass = new ShaderPass( FilmGrainShader );
+    fxaaPass = new ShaderPass( FXAAShader );
+    distortPass = new ShaderPass( LensDistortionShader );
+    distortPass.material.defines.CHROMA_SAMPLES = 7;
+
+    //bloom
+    /*
+    bloomPass = new UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+		bloomPass.threshold = params.bloomThreshold;
+		bloomPass.strength = params.bloomStrength;
+		bloomPass.radius = params.bloomRadius;
+    */
+
+    /*
+    const bokehPass = new BokehPass( this.scene, this.camera.threeCamera, {
+      focus: 1.0,
+      aperture: 0.025,
+      maxblur: 0.01,
+
+      width: window.innerWidth,
+      height: window.innerHeight
+    } );
+    */
+
+    composer = new EffectComposer( this.renderer.threeRenderer );
+    composer.setSize( window.innerWidth, window.innerHeight );
+    composer.setPixelRatio( window.devicePixelRatio );
+    composer.addPass( renderPass );
+    composer.addPass( fxaaPass );
+    composer.addPass( distortPass );
+    composer.addPass( grainPass );
+    //composer.addPass( bokehPass );
+    //composer.addPass( bloomPass );
+
+    composer2 = new EffectComposer( this.renderer.threeRenderer );
+    composer2.setSize( window.innerWidth, window.innerHeight );
+    composer2.setPixelRatio( window.devicePixelRatio );
+    composer2.addPass( renderPass2 );
+    composer2.addPass( fxaaPass );
+    composer2.addPass( distortPass );
+    composer2.addPass( grainPass );
+
+    /*
+    anime.timeline({loop: true})
+            .add({
+                targets: params,
+                //baseIor: [1.0, 0.6], bandOffset: [0.0, 0.03],
+                baseIor: [1.3, 1.0], bandOffset: [0.03, 0.0],
+                easing: "easeInOutExpo",
+                duration: 2400,
+                delay: 2000,
+            }).add({
+                targets: params,
+                //baseIor: [0.6, 1.0], bandOffset: [0.03, 0.0],
+                baseIor: [1.0, 1.3], bandOffset: [0.0, 0.03],
+                duration: 2400,
+                easing: "easeInOutExpo",
+                delay: 1000
+            });
+            */
 
     // Create and place lights in scene
     const lights = ['ambient', 'directional', 'point', 'hemi'];
     lights.forEach((light) => this.light.place(light));
+    lights.forEach((light) => this.light2.place(light));
 
-    // Create and place geo in scene
-    this.geometry = new Geometry(this.scene);
-    this.geometry.make('plane')(150, 150, 10, 10);
-    this.geometry.place([0, -20, 0], [Math.PI / 2, 0, 0]);
+    /*
+    const light1 = new THREE.PointLight( 0xffffff, 1, 0 );
+			light1.position.set( 0, 200, 0 );
+			this.scene.add( light1 );
+
+			const light2 = new THREE.PointLight( 0xffffff, 1, 0 );
+			light2.position.set( 100, 200, 100 );
+			this.scene.add( light2 );
+
+			const light3 = new THREE.PointLight( 0xffffff, 1, 0 );
+			light3.position.set( - 100, - 200, - 100 );
+			this.scene.add( light3 );
+      */
 
     // Set up rStats if dev environment
     if(Config.isDev && Config.isShowingStats) {
@@ -69,46 +196,45 @@ export default class Main {
 
     // Set up gui
     if (Config.isDev) {
-      this.gui = new DatGUI(this)
+      //this.gui = new DatGUI(this)
     }
 
-    // Instantiate texture class
-    this.texture = new Texture();
+    this.events = new Events(this);
+    this.events.init(this);
 
-    // Start loading the textures and then go on to load the model after the texture Promises have resolved
-    this.texture.load().then(() => {
-      this.manager = new THREE.LoadingManager();
+    //this.globe = new Globe(this);
+    //this.earth = new Earth(this);
+    this.stars = new Stars(this);
+    this.platform = new Platform(this);
 
-      // Textures loaded, load model
-      this.model = new Model(this.scene, this.manager, this.texture.textures);
-      this.model.load(Config.models[Config.model.selected].type);
+    //this.camera.threeCamera.position.set(0, 0, 270);
+    //this.camera.threeCamera.rotation.set(-30 * THREE.Math.DEG2RAD, 0, 0);
+    
+    //this.overlay = new Overlay();
+    this.timeline = new Timeline(this);
 
-      // onProgress callback
-      this.manager.onProgress = (item, loaded, total) => {
-        console.log(`${item}: ${loaded} ${total}`);
-      };
+    
 
-      // All loaders done now
-      this.manager.onLoad = () => {
-        // Set up interaction manager with the app now that the model is finished loading
-        new Interaction(this.renderer.threeRenderer, this.scene, this.camera.threeCamera, this.controls.threeControls);
-
-        // Add dat.GUI controls if dev
-        if(Config.isDev) {
-          this.meshHelper = new MeshHelper(this.scene, this.model.obj);
-          if (Config.mesh.enableHelper) this.meshHelper.enable();
-
-          this.gui.load(this, this.model.obj);
-        }
-
-        // Everything is now fully loaded
-        Config.isLoaded = true;
-        this.container.querySelector('#loading').style.display = 'none';
-      };
-    });
-
-    // Start render which does not wait for model fully loaded
     this.render();
+  }
+
+  addEarth(){
+    this.earth = new Earth(this);
+  }
+
+  warpIn(callback){
+    anime({
+      targets: params,
+      baseIor: [1.0, 0.5], bandOffset: [0.0, 0.05],
+      easing: "easeInCubic",
+      duration: 2000,
+      complete: ()=>{ if(callback) callback(); }
+    });
+  }
+
+  flipScene(){
+    console.log('flip');
+    activeScene = 1;
   }
 
   render() {
@@ -118,7 +244,19 @@ export default class Main {
     }
 
     // Call render function and pass in created scene and camera
-    this.renderer.render(this.scene, this.camera.threeCamera);
+    //this.renderer.render(this.scene, this.camera.threeCamera);
+
+    grainPass.material.uniforms.noiseOffset.value += 0.02;
+    grainPass.material.uniforms.intensity.value = 0.05;
+    distortPass.material.uniforms.baseIor.value = params.baseIor;
+    distortPass.material.uniforms.bandOffset.value = params.bandOffset;
+    //distortPass.material.uniforms.jitterOffset.value += 0.01;
+    distortPass.material.uniforms.jitterIntensity.value = 1.0;
+
+    if(activeScene == 0)
+      composer.render();
+    else if(activeScene == 1)
+      composer2.render();
 
     // rStats has finished determining render call now
     if(Config.isDev && Config.isShowingStats) {
@@ -126,13 +264,25 @@ export default class Main {
     }
 
     // Delta time is sometimes needed for certain updates
-    //const delta = this.clock.getDelta();
+    const delta = this.clock.getDelta();
 
-    // Call any vendor or module frame updates here
-    TWEEN.update();
-    this.controls.threeControls.update();
+    // loop functions
+    if(!vars.isPauseLoopFunctions){
+      var time = Date.now();
+      for (var i in vars.loopFunctions){ 
+        vars.loopFunctions[i][0](time, delta);
+      }
+    }
+    
+    //this.controls.threeControls.update();
+    
+    if(vars.isMouseActive){
+      this.scene.rotation.y = THREE.MathUtils.lerp(this.scene.rotation.y, (vars.mouseCoords.x * Math.PI) / 10, 0.05);
+      this.scene.rotation.x = THREE.MathUtils.lerp(this.scene.rotation.x, (vars.mouseCoords.y * Math.PI) / 10, 0.05);
+    }
 
     // RAF
+    if(!vars.isPaused)
     requestAnimationFrame(this.render.bind(this)); // Bind the main class instead of window object
   }
 }

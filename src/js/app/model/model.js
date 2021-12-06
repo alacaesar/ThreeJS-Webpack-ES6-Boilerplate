@@ -44,7 +44,7 @@ export default class Model {
             BufferGeometryUtils.computeTangents(mesh.geometry);
 
             var group = new THREE.Group();
-            group.scale.multiplyScalar(0.25);
+            group.scale.multiplyScalar(Config.models[Config.model.selected].scale);
             this.scene.add( group );
 
             this.ref = group;

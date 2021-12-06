@@ -1,5 +1,7 @@
 /*! ../../data/config */
 
+/*! ../../data/points.json */
+
 /*! ../../utils/bufferGeometryUtils */
 
 /*! ../../utils/helpers */
@@ -8,9 +10,17 @@
 
 /*! ../../utils/orbitControls */
 
+/*! ../components/geometry */
+
 /*! ../components/material */
 
+/*! ../data/config */
+
+/*! ../fx */
+
 /*! ../loaders/GLTFLoader */
+
+/*! ../vars */
 
 /*! ./../css/app.scss */
 
@@ -30,6 +40,22 @@
 
 /*! ./data/config */
 
+/*! ./elements/earth */
+
+/*! ./elements/globe */
+
+/*! ./elements/platform */
+
+/*! ./elements/stars */
+
+/*! ./events */
+
+/*! ./fx */
+
+/*! ./helpers/FilmGrainShader.js */
+
+/*! ./helpers/LensDistortionShader.js */
+
 /*! ./helpers/meshHelper */
 
 /*! ./helpers/stats */
@@ -44,15 +70,37 @@
 
 /*! ./model/texture */
 
+/*! ./overlay */
+
+/*! ./rectLight */
+
+/*! ./timeline */
+
 /*! ./utils/detector */
+
+/*! ./vars */
 
 /*! ./vertexNormalsHelper */
 
 /*! @tweenjs/tween.js */
 
+/*! animejs */
+
 /*! es6-promise */
 
+/*! simplex-noise */
+
 /*! three */
+
+/*! three/examples/jsm/loaders/OBJLoader */
+
+/*! three/examples/jsm/postprocessing/EffectComposer.js */
+
+/*! three/examples/jsm/postprocessing/RenderPass */
+
+/*! three/examples/jsm/postprocessing/ShaderPass */
+
+/*! three/examples/jsm/shaders/FXAAShader.js */
 
 /*!***********************!*\
   !*** ./src/js/app.js ***!
@@ -62,13 +110,37 @@
   !*** ./src/css/app.scss ***!
   \**************************/
 
+/*!**************************!*\
+  !*** ./src/js/app/fx.js ***!
+  \**************************/
+
 /*!****************************!*\
   !*** ./src/js/app/main.js ***!
   \****************************/
 
+/*!****************************!*\
+  !*** ./src/js/app/vars.js ***!
+  \****************************/
+
+/*!******************************!*\
+  !*** ./src/js/app/events.js ***!
+  \******************************/
+
+/*!*******************************!*\
+  !*** ./src/js/app/overlay.js ***!
+  \*******************************/
+
 /*!*******************************!*\
   !*** ./src/js/data/config.js ***!
   \*******************************/
+
+/*!********************************!*\
+  !*** ./src/js/app/timeline.js ***!
+  \********************************/
+
+/*!*********************************!*\
+  !*** ./src/js/data/points.json ***!
+  \*********************************/
 
 /*!*********************************!*\
   !*** ./src/js/utils/helpers.js ***!
@@ -94,6 +166,18 @@
   !*** ./src/js/app/model/texture.js ***!
   \*************************************/
 
+/*!**************************************!*\
+  !*** ./src/js/app/elements/earth.js ***!
+  \**************************************/
+
+/*!**************************************!*\
+  !*** ./src/js/app/elements/globe.js ***!
+  \**************************************/
+
+/*!**************************************!*\
+  !*** ./src/js/app/elements/stars.js ***!
+  \**************************************/
+
 /*!***************************************!*\
   !*** ./src/js/app/managers/datGUI.js ***!
   \***************************************/
@@ -109,6 +193,14 @@
 /*!*****************************************!*\
   !*** ./src/js/app/components/camera.js ***!
   \*****************************************/
+
+/*!*****************************************!*\
+  !*** ./src/js/app/elements/platform.js ***!
+  \*****************************************/
+
+/*!******************************************!*\
+  !*** ./src/js/app/elements/rectLight.js ***!
+  \******************************************/
 
 /*!******************************************!*\
   !*** ./src/js/app/helpers/meshHelper.js ***!
@@ -142,6 +234,14 @@
   !*** ./src/js/utils/bufferGeometryUtils.js ***!
   \*********************************************/
 
+/*!***********************************************!*\
+  !*** ./src/js/app/helpers/FilmGrainShader.js ***!
+  \***********************************************/
+
 /*!***************************************************!*\
   !*** ./src/js/app/helpers/vertexNormalsHelper.js ***!
   \***************************************************/
+
+/*!****************************************************!*\
+  !*** ./src/js/app/helpers/LensDistortionShader.js ***!
+  \****************************************************/

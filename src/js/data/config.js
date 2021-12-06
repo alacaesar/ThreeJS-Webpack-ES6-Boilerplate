@@ -3,10 +3,10 @@ import TWEEN from '@tweenjs/tween.js';
 // This object contains the state of the app
 export default {
   isDev: false,
-  isShowingStats: true,
+  isShowingStats: false,
   isLoaded: false,
   isTweening: false,
-  isRotating: true,
+  isRotating: false,
   isMouseMoving: false,
   isMouseOver: false,
   maxAnisotropy: 1,
@@ -15,14 +15,19 @@ export default {
   duration: 500,
   model: {
     selected: 0,
-    initialTypes: ['gltf', 'object'],
+    initialTypes: ['gltf', 'box', 'object'],
     type: 'gltf'
   },
   models: [
     {
-      path: './assets/models/duck.gltf',
+      path: './assets/models/BoxAnimated.gltf',
       scale: 20,
       type: 'gltf'
+    },
+    {
+      path: './assets/models/duck.gltf',
+      scale: 20,
+      type: 'box'
     },
     {
       path: './assets/models/Teapot.json',
@@ -37,7 +42,7 @@ export default {
     ]
   },
   mesh: {
-    enableHelper: true,
+    enableHelper: false,
     wireframe: false,
     translucent: false,
     material: {
@@ -45,26 +50,31 @@ export default {
       emissive: 0xffffff
     }
   },
+  colors:{
+    current: {r:79, g:161, b:216},
+    day: {r:79, g:161, b:216},
+    night: {r:21, g:17, b:31}
+  },
   fog: {
-    color: 0xffffff,
-    near: 0.0008
+    color: 0x14134F,
+    near: 0.002
   },
   camera: {
-    fov: 40,
-    near: 2,
-    far: 1000,
+    fov: 50,
+    near: 1,
+    far: 3000,
     aspect: 1,
     posX: 0,
-    posY: 30,
-    posZ: 40
+    posY: 0,
+    posZ: 100
   },
   controls: {
-    autoRotate: true,
+    autoRotate: false,
     autoRotateSpeed: -0.5,
     rotateSpeed: 0.5,
     zoomSpeed: 0.8,
-    minDistance: 200,
-    maxDistance: 600,
+    minDistance: 100,
+    maxDistance: 1200,
     minPolarAngle: Math.PI / 5,
     maxPolarAngle: Math.PI / 2,
     minAzimuthAngle: -Infinity,
@@ -87,12 +97,12 @@ export default {
     color: 0xf0f0f0,
     intensity: 0.4,
     x: -75,
-    y: 280,
+    y: 180,
     z: 150
   },
   shadow: {
     enabled: true,
-    helperEnabled: true,
+    helperEnabled: false,
     bias: 0,
     mapWidth: 2048,
     mapHeight: 2048,

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 
 import Config from '../../data/config';
+import vars from '../vars';
 
 // Main webGL renderer class
 export default class Renderer {
@@ -15,6 +16,10 @@ export default class Renderer {
     // Set clear color to fog to enable fog or to hex color for no fog
     this.threeRenderer.setClearColor(scene.fog.color);
     this.threeRenderer.setPixelRatio(window.devicePixelRatio); // For retina
+
+    var globalPlane = new THREE.Plane( new THREE.Vector3( - 1, 0, 0 ), 0);
+    this.threeRenderer.localClippingEnabled = true;
+    //this.threeRenderer.clippingPlanes = [ globalPlane ];
 
     // Appends canvas
     container.appendChild(this.threeRenderer.domElement);
@@ -35,11 +40,15 @@ export default class Renderer {
   }
 
   updateSize() {
+    vars.windowSize = {width:this.container.offsetWidth, height:this.container.offsetHeight};
     this.threeRenderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
   }
 
   render(scene, camera) {
     // Renders scene to canvas target
+    //this.threeRenderer.autoClear = false;
+    this.threeRenderer.clear();
+    this.threeRenderer.clearDepth();
     this.threeRenderer.render(scene, camera);
   }
 }

@@ -7,13 +7,52 @@
 
   <body>
     <section id="appContainer" class="main">
-      <div id="loading">Loading...</div>
+      <div id="loading"></div>
     </section>
+
+    <main class="overlay">
+
+      <!-- Preload -->
+      <section class="preload hide">
+        <div class="shield">
+          <svg width="100" height="75" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path id="pill" d="M2.5 37.5C2.5 18.17 18.17 2.5 37.5 2.5H62.5C81.83 2.5 97.5 18.17 97.5 37.5V37.5C97.5 56.83 81.83 72.5 62.5 72.5H37.5C18.17 72.5 2.5 56.83 2.5 37.5V37.5Z" stroke-linecap="round" />
+            <path id="mob" d="M 31 48 L 31 33.5 C 31 27.21, 36.8 26, 40 26 C 43.2 26, 50.25 26.5, 50.25 33.5 L 50.25 48 M 50.25 33.5 C 50.5 26.5, 56.5 26, 60.5 26 C 64.5 26, 69.5 27.71, 69.5 33.5 L 69.5 48" stroke-linejoin="round" stroke-linecap="round" />
+          </svg>
+        </div>
+      </section>
+
+      <!-- Intro -->
+      <section class="intro hide">
+        <div class="inside medium">
+          <p class="off anim-words">Celebrating 10 years of impactful positive digital footprint all around the world</p>
+        </div>
+      </section>
+
+      <!-- Globe -->
+      <section class="globe hide">
+        <ul class="milestones"></ul>
+      </section>
+
+      <!-- Transition curtain -->
+      <section class="curtain hide">
+        <div class="inside">
+          <h2></h2>
+        </div>
+      </section>
+
+      <button class="flip">flip</button>
+
+
+    </main>
 
     
     <script src="js/rStats.js"></script>
     <script src="js/rStats.extras.js"></script>
     <script src="js/dat.gui.min.js"></script>
     
+    
+    <link href="/css/style.css" rel="stylesheet">
+
   </body>
 </html>
