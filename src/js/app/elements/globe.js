@@ -15,8 +15,9 @@ const matrix = new THREE.Matrix4();
 const markers = new THREE.Object3D();
 
 const simplex = new SimplexNoise();
-var blob, ring, ring2;
+var blob, ring, ring2, ring3;
 
+let globe = new THREE.Object3D();
 let flies = new THREE.Object3D();
 
 export default class Globe {
@@ -24,76 +25,70 @@ export default class Globe {
       if (fx.hasWebGL()) {
         this.init(main);
       }
+
+      this.markers = markers;
     }
   
     init(main) {
 
         this.scene = main.scene;
 
-        // Create and place geo in scene
-
-        /*
-        let core = new THREE.Mesh(new THREE.IcosahedronGeometry(vars.globeRadius * .8, 8), new THREE.MeshPhongMaterial({color:"black"}));
-        this.scene.add(core);
-        */
-
-        let blobGeometry = new THREE.IcosahedronGeometry( vars.globeRadius - 5, 10 );
+        let blobGeometry = new THREE.IcosahedronGeometry( vars.globeRadius - 3, 10 );
             blobGeometry.setAttribute("basePosition", new THREE.BufferAttribute().copy(blobGeometry.attributes.position));
         var blobMaterial = new THREE.MeshPhysicalMaterial({
-                color: 0x14134F,
-                emissive: 0x000000,
-                emissiveIntensity:.2,
+                color: 0x000957,
+                emissive: 0x002B7E,
+                emissiveIntensity:.1,
                 transparent:true,
-                opacity:.6,
+                opacity:1,
                 depthTest: true,
                 depthWrite: true,
                 flatShading:true,
-                roughness:.5,
-                metalness:.95,
-                reflectivity:2.95,
+                roughness:.8,
+                metalness:.2,
+                reflectivity:1.95,
             });
-
+        blob = new THREE.Mesh( blobGeometry, blobMaterial );
+        globe.add( blob );
+        
         ring = new THREE.Mesh(
-            new THREE.CylinderGeometry( vars.globeRadius *2, vars.globeRadius *2, 2, 36, 1, true),
-            new THREE.MeshBasicMaterial( {wireframe:false, color:0x1F55A7, side:THREE.DoubleSide, transparent:true, opacity:.1, flatShading:true })
+            new THREE.CylinderGeometry( vars.globeRadius *2.4, vars.globeRadius *2.4, 1, 36, 1, true),
+            new THREE.MeshBasicMaterial( {wireframe:false, color:0xFFFFFF, side:THREE.DoubleSide, transparent:true, opacity:.2, flatShading:true })
         );
         ring.rotation.set(30 * THREE.Math.DEG2RAD, 0, 45 * THREE.Math.DEG2RAD);
-
-        this.scene.add(ring);
+        globe.add(ring);
 
         ring2 = new THREE.Mesh(
-            new THREE.CylinderGeometry( vars.globeRadius * 2.5, vars.globeRadius *2.5, 2, 36, 1, true),
-            new THREE.MeshBasicMaterial( {wireframe:false, color:0xFFE600, side:THREE.DoubleSide, transparent:true, opacity:.05, flatShading:true })
+            new THREE.CylinderGeometry( vars.globeRadius * 3.3, vars.globeRadius * 3.3, 1, 36, 1, true),
+            new THREE.MeshBasicMaterial( {wireframe:false, color:0x38B0FF, side:THREE.DoubleSide, transparent:true, opacity:.2, flatShading:true })
         );
         ring2.rotation.set(-45 * THREE.Math.DEG2RAD, 0, -30 * THREE.Math.DEG2RAD);
+        globe.add(ring2);
 
-        this.scene.add(ring2);
+        ring3 = new THREE.Mesh(
+            new THREE.CylinderGeometry( vars.globeRadius * 3.5, vars.globeRadius *3.5, 1, 36, 1, true),
+            new THREE.MeshBasicMaterial( {wireframe:false, color:0x38B0FF, side:THREE.DoubleSide, transparent:true, opacity:.4, flatShading:true })
+        );
+        ring3.rotation.set(-15 * THREE.Math.DEG2RAD, 0, 10 * THREE.Math.DEG2RAD);
+        globe.add(ring3);
 
-
-        blob = new THREE.Mesh( blobGeometry, blobMaterial );
-        //blob.position.y = 30;
-        this.scene.add( blob );
-
-        vars.loopFunctions.push([this.animatePositions, "ANIMATE_EARTH"]);
+        //vars.loopFunctions.push([this.animatePositions, "ANIMATE_EARTH", 0]);
         
-
         var localPlane = new THREE.Plane( new THREE.Vector3( 1, 0, 0 ), 0);
-
-        const waterMap = new THREE.TextureLoader().load( 'assets/textures/water.png' );
 
         this.mergedGeometry = new THREE.BufferGeometry();
         this.pointGeometry = new THREE.SphereBufferGeometry(.4,1,1);
-        this.pointGeometry2 = new THREE.SphereBufferGeometry(.6,1,1);
-        this.pointMaterial = new THREE.MeshPhysicalMaterial({
-            color:0x1F55A7,
+        this.pointGeometry2 = new THREE.SphereBufferGeometry(.7,1,1);
+        this.pointMaterial = new THREE.MeshBasicMaterial({
+            color:0x9D92F3,
             //clippingPlanes: [localPlane],
             clipShadows: true,
-            roughness:1,
-            metalness:.1,
+            roughness:.8,
+            metalness:.4,
         });
+        this.pointMaterial = new THREE.MeshBasicMaterial({color:"#9145B6"});
 
         const geometries = [];
-
         for (let point of data.points) {
             const { x, y, z } = fx.convertFlatCoordsToSphereCoords(
               point.x,
@@ -104,34 +99,30 @@ export default class Globe {
             );
 
             if (x && y && z) {
-
-                matrix.makeTranslation(
-                    x,
-                    y,
-                    z
-                  );
+                matrix.makeTranslation( x, y, z );
 
                 let k = Math.random() > .25 ? 
                 geometries.push(this.pointGeometry.clone().applyMatrix4(matrix))
                  : geometries.push(this.pointGeometry2.clone().applyMatrix4(matrix));
 
-              //geometries.push(this.pointGeometry.clone().applyMatrix4(matrix));
-
             }
         }
 
         this.mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
-
         this.globeShape = new THREE.Mesh(this.mergedGeometry, this.pointMaterial);
         //this.globeShape.rotation.y = -40 * THREE.Math.DEG2RAD;
-        this.scene.add(this.globeShape);
+        globe.add(this.globeShape);
 
         for(var i=0; i<vars.milestones.length; ++i){
             this.addMarker(vars.milestones[i].coords, i);
         }
 
-        this.scene.add(markers);
-        this.addFireflies(main);
+        globe.add(markers);
+        //this.addFireflies(main);
+
+        //vars.loopFunctions.push([this.animateGlobe, "ANIMATE_EARTH", 0]);
+
+        this.scene.add(globe);
 
     }
 
@@ -144,10 +135,10 @@ export default class Globe {
             depthTest:false,
             uniforms: {
                 color1: {
-                  value: new THREE.Color(0xFFE600)
+                  value: new THREE.Color(0x38B0FF)
                 },
                 color2: {
-                  value: new THREE.Color(0x14134F)
+                  value: new THREE.Color(0x003DB2)
                 }
               },
               vertexShader: `
@@ -166,7 +157,7 @@ export default class Globe {
                 
                 void main() {
                   
-                  gl_FragColor = vec4(mix(color1, color2, vUv.y), 0.2);
+                  gl_FragColor = vec4(mix(color1, color2, vUv.y), 0.4);
                 }
               `
         });
@@ -175,6 +166,7 @@ export default class Globe {
             new THREE.CylinderGeometry(1, 3, 24, 16, 1, true),
             grassMaterial
         )
+        mesh.name = i;
 
         var latRad = obj.lat * (Math.PI / 180);
         var lonRad = -obj.lng * (Math.PI / 180);
@@ -187,9 +179,16 @@ export default class Globe {
         );
         this.marker.rotation.set(0.0, -lonRad, latRad - Math.PI * 0.5);
 
+        const sphere = new THREE.SphereGeometry( .2, 3, 3 );
+        let light = new THREE.PointLight( 0x009AFF, 2, 25 );
+        light.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x009AFF } ) ) );
+        light.position.set(0, 5, 0);
+        this.marker.add(light);
+
         vars.milestones[i].position = this.marker.position;
 
         this.marker.add(mesh);
+
         markers.add(this.marker);
 
     }
@@ -198,33 +197,44 @@ export default class Globe {
 
         this.scene = main.scene;
 
-        const sphere = new THREE.SphereGeometry( 1, 3, 3 );
+        const sphere = new THREE.SphereGeometry( .4, 3, 3 );
+
+        let v =  vars.globeRadius * .6;
 
         //lights
-        let light1 = new THREE.PointLight( 0xff0040, 12, 50 );
+        let light1 = new THREE.PointLight( 0xff0040, 2, 30 );
         light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) );
+        light1.position.set(v, v, -v);
         flies.add( light1 );
 
-        let light2 = new THREE.PointLight( 0x0040ff, 12, 50 );
+        let light2 = new THREE.PointLight( 0x0040ff, 2, 30 );
         light2.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x0040ff } ) ) );
+        light2.position.set(-v, -v, -v);
         flies.add( light2 );
 
-        let light3 = new THREE.PointLight( 0x80ff80, 12, 50 );
+        let light3 = new THREE.PointLight( 0x80ff80, 2, 30 );
         light3.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x80ff80 } ) ) );
+        light3.position.set(v, -v, v);
         flies.add( light3 );
 
-        let light4 = new THREE.PointLight( 0xffaa00, 12, 50 );
+        let light4 = new THREE.PointLight( 0xffaa00, 2, 30 );
         light4.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffaa00 } ) ) );
+        light4.position.set(-v, v, v);
         flies.add( light4 );
 
         flies.position.y = 0;
 
         this.scene.add( flies );
 
-        vars.loopFunctions.push([this.animateFlies, "ANIMATE_FLIES"]);
+        //vars.loopFunctions.push([this.animateFlies, "ANIMATE_FLIES"]);
     }
 
     animateFlies(time){
+
+        flies.rotation.y += .003;
+        flies.rotation.x += .002;
+
+        /*
         
         time = time * 0.0005;
         
@@ -250,6 +260,8 @@ export default class Globe {
         light4.position.x = Math.sin( time * 0.3 ) * radius;
         light4.position.y = Math.cos( time * 0.7 ) * radius;
         light4.position.z = Math.sin( time * 0.5 ) * radius;
+
+        */
     }
 
     animatePositions(a){
@@ -263,9 +275,9 @@ export default class Globe {
           vertex.fromBufferAttribute( basePositionAttribute, vertexIndex );
 
           var perlin = simplex.noise3D(
-              vertex.x * 0.018 + a * 0.0002,
-              vertex.y * 0.018 + a * 0.0003,
-              vertex.z * 0.018 );
+              vertex.x * 0.0095 + a * 0.0002,
+              vertex.y * 0.0095 + a * 0.0004,
+              vertex.z * 0.0095 );
 
           //var ratio = perlin * 0.4 * ( mouse.y + 0.1 ) + 0.8;
           var ratio = perlin * 0.4 * 0.1 + 0.8;
@@ -280,6 +292,10 @@ export default class Globe {
 
       //ring.rotation.y -= 0.001;
       //ring2.rotation.y += 0.002;
-  }
+    }
+
+    animateGlobe(){
+      globe.rotation.y += .0008;
+    }
 
   }

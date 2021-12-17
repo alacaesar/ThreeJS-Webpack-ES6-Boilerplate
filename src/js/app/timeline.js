@@ -18,6 +18,7 @@ export default class Timeline {
 
         // init the overlay
         this.overlay = new Overlay();
+        vars.overlay = this.overlay;
 
         // animate stars
         //vars.loopFunctions.push([main.stars.animate, "ANIMATE_STARS"]);
@@ -117,12 +118,15 @@ export default class Timeline {
             curtain: (n, callback) => {
                 console.log('[ timeline : transition curtain ]');
                 this.fixSections(3);
-                this.overlay.animateCurtain(section, "IN");
+                this.overlay.animateCurtain("IN");
+                document.body.classList.remove("hold");
             },
             section: (n, callback) => {
                 console.log('[ timeline : section'+n+' ]');
+                this.fixSections(4);
+                this.overlay.animate(section);
             }
-        }
+        };
 
         const getTextures = ()=> new Promise((resolve, reject)=>{
             const loader = new THREE.TextureLoader();
@@ -141,7 +145,11 @@ export default class Timeline {
         getTextures().then(result=>{
             vars.textures = result;
             console.log("We received,", result);
-            setTimeout(() => { _this.goto.globe(); }, 2);
+            setTimeout(() => { 
+                _this.goto.globe();
+                //vars.main.flipScene(1);
+                //vars.main.initPlatform();
+            }, 2);
         });
 
     }

@@ -31,7 +31,7 @@ export default class Earth {
             bumpScale: .005,
             specularMap: waterMap,
             specular: new THREE.Color( 0xEEEEEE ),
-            clippingPlanes: [localPlane],
+            //clippingPlanes: [localPlane],
             clipShadows: true,
         });
 
@@ -42,7 +42,7 @@ export default class Earth {
                 map: cloudsTexture,
                 transparent: true,
                 roughness: .9,
-                clippingPlanes: [localPlane],
+                //clippingPlanes: [localPlane],
                 clipShadows: true,
             })
         );

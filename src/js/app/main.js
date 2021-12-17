@@ -49,12 +49,12 @@ import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 import { FilmGrainShader } from './helpers/FilmGrainShader.js';
 import { LensDistortionShader } from './helpers/LensDistortionShader.js';
 
-var composer, composer2, renderPass, renderPass2, distortPass, grainPass, fxaaPass, bloomPass;
+var composer, composer2, renderPass, renderPass2, distortPass, grainPass, fxaaPass, bloomPass, bokehPass;
 
 var params = {
   enableNoise: true,
-  noiseSpeed: 0.02,
-  noiseIntensity: 0.025,
+  noiseSpeed: 0.0,
+  noiseIntensity: 0.0,
 
   enableDistortion: true,
   baseIor: 1.0,
@@ -68,7 +68,7 @@ var params = {
   bloomRadius: 0.1,
 };
 
-var activeScene = 1;
+var activeScene = 0, scenes = [];
 
 const bloomLayer = new THREE.Layers();
 bloomLayer.set(1);
@@ -86,10 +86,12 @@ export default class Main {
     // Main scene creation
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.FogExp2(Config.fog.color, Config.fog.near);
+    scenes.push(this.scene);
 
     // Main scene creation
     this.scene2 = new THREE.Scene();
-    this.scene2.fog = new THREE.FogExp2(Config.fog.color, Config.fog.near);
+    this.scene2.fog = new THREE.FogExp2(Config.fog2.color, Config.fog2.near);
+    scenes.push(this.scene2);
 
     // Get Device Pixel Ratio first for retina
     if(window.devicePixelRatio) {
@@ -122,7 +124,7 @@ export default class Main {
     */
 
     /*
-    const bokehPass = new BokehPass( this.scene, this.camera.threeCamera, {
+    bokehPass = new BokehPass( this.scene, this.camera.threeCamera, {
       focus: 1.0,
       aperture: 0.025,
       maxblur: 0.01,
@@ -139,7 +141,6 @@ export default class Main {
     composer.addPass( fxaaPass );
     composer.addPass( distortPass );
     composer.addPass( grainPass );
-    //composer.addPass( bokehPass );
     //composer.addPass( bloomPass );
 
     composer2 = new EffectComposer( this.renderer.threeRenderer );
@@ -150,43 +151,14 @@ export default class Main {
     composer2.addPass( distortPass );
     composer2.addPass( grainPass );
 
-    /*
-    anime.timeline({loop: true})
-            .add({
-                targets: params,
-                //baseIor: [1.0, 0.6], bandOffset: [0.0, 0.03],
-                baseIor: [1.3, 1.0], bandOffset: [0.03, 0.0],
-                easing: "easeInOutExpo",
-                duration: 2400,
-                delay: 2000,
-            }).add({
-                targets: params,
-                //baseIor: [0.6, 1.0], bandOffset: [0.03, 0.0],
-                baseIor: [1.0, 1.3], bandOffset: [0.0, 0.03],
-                duration: 2400,
-                easing: "easeInOutExpo",
-                delay: 1000
-            });
-            */
 
     // Create and place lights in scene
     const lights = ['ambient', 'directional', 'point', 'hemi'];
     lights.forEach((light) => this.light.place(light));
-    lights.forEach((light) => this.light2.place(light));
+    
+    const lights2 = ['hemi', 'point', 'directional', 'ambient'];
+    lights2.forEach((light) => this.light2.place(light));
 
-    /*
-    const light1 = new THREE.PointLight( 0xffffff, 1, 0 );
-			light1.position.set( 0, 200, 0 );
-			this.scene.add( light1 );
-
-			const light2 = new THREE.PointLight( 0xffffff, 1, 0 );
-			light2.position.set( 100, 200, 100 );
-			this.scene.add( light2 );
-
-			const light3 = new THREE.PointLight( 0xffffff, 1, 0 );
-			light3.position.set( - 100, - 200, - 100 );
-			this.scene.add( light3 );
-      */
 
     // Set up rStats if dev environment
     if(Config.isDev && Config.isShowingStats) {
@@ -199,10 +171,7 @@ export default class Main {
       //this.gui = new DatGUI(this)
     }
 
-    this.events = new Events(this);
-    this.events.init(this);
-
-    //this.globe = new Globe(this);
+    this.globe = new Globe(this);
     //this.earth = new Earth(this);
     this.stars = new Stars(this);
     this.platform = new Platform(this);
@@ -213,7 +182,8 @@ export default class Main {
     //this.overlay = new Overlay();
     this.timeline = new Timeline(this);
 
-    
+    this.events = new Events(this);
+    this.events.init(this);
 
     this.render();
   }
@@ -222,19 +192,67 @@ export default class Main {
     this.earth = new Earth(this);
   }
 
-  warpIn(callback){
-    anime({
-      targets: params,
-      baseIor: [1.0, 0.5], bandOffset: [0.0, 0.05],
-      easing: "easeInCubic",
-      duration: 2000,
-      complete: ()=>{ if(callback) callback(); }
-    });
+  warp(DIRECTION, callback){
+
+    let wrapDuration = 2000;
+    let easingIn = 'easeInQuad';
+
+    if(DIRECTION == "IN"){
+      anime({
+        targets: params,
+        baseIor: [1.0, 0.5], bandOffset: [0.0, 0.05],
+        easing: easingIn,
+        duration: wrapDuration,
+        complete: ()=>{ if(callback) callback(); }
+      });
+    }else if(DIRECTION == "OUT"){
+      anime({
+        targets: params,
+        baseIor: [1.4, 1.0], bandOffset: [0.08, 0.0],
+        easing: "easeOutCubic",
+        duration: wrapDuration,
+        complete: ()=>{ if(callback) callback(); },
+      });
+    }else if(DIRECTION == "RIN"){
+      anime({
+        targets: params,
+        baseIor: [1.0, 1.4], bandOffset: [0.0, 0.08],
+        easing: "easeInCubic",
+        duration: wrapDuration * .5,
+        complete: ()=>{ if(callback) callback(); }
+      });
+    }else if(DIRECTION == "ROUT"){
+      anime({
+        targets: params,
+        baseIor: [0.5, 1.0], bandOffset: [0.05, 0.0],
+        easing: "easeInCubic",
+        duration: wrapDuration * .5,
+        complete: ()=>{ if(callback) callback(); }
+      });
+    }
   }
 
-  flipScene(){
+  flipScene(K){
     console.log('flip');
-    activeScene = 1;
+    activeScene = K;
+    if( activeScene == 0 ){
+      this.renderer.threeRenderer.setClearColor(Config.fog.color);
+      this.controls.threeControls.enabled = true;
+    }else{
+      this.controls.threeControls.enabled = false;
+      this.renderer.threeRenderer.setClearColor(Config.fog2.color);
+    }
+  }
+
+  initPlatform(){
+    this.camera.threeCamera.position.set(Config.platformCamera.posX, Config.platformCamera.posY, Config.platformCamera.posZ);
+    this.camera.threeCamera.lookAt(0,0,0);
+    this.platform.init();
+    vars.platformIsInitialized = true;
+  }
+
+  resetPlatform(){
+    this.platform.removeModel();
   }
 
   render() {
@@ -246,8 +264,8 @@ export default class Main {
     // Call render function and pass in created scene and camera
     //this.renderer.render(this.scene, this.camera.threeCamera);
 
-    grainPass.material.uniforms.noiseOffset.value += 0.02;
-    grainPass.material.uniforms.intensity.value = 0.05;
+    //grainPass.material.uniforms.noiseOffset.value += 0.02;
+    //grainPass.material.uniforms.intensity.value = 0.08;
     distortPass.material.uniforms.baseIor.value = params.baseIor;
     distortPass.material.uniforms.bandOffset.value = params.bandOffset;
     //distortPass.material.uniforms.jitterOffset.value += 0.01;
@@ -269,16 +287,16 @@ export default class Main {
     // loop functions
     if(!vars.isPauseLoopFunctions){
       var time = Date.now();
-      for (var i in vars.loopFunctions){ 
-        vars.loopFunctions[i][0](time, delta);
+      for (var i in vars.loopFunctions){
+        if( vars.loopFunctions[i][2] == activeScene ) vars.loopFunctions[i][0](time, delta);
       }
     }
     
     //this.controls.threeControls.update();
     
     if(vars.isMouseActive){
-      this.scene.rotation.y = THREE.MathUtils.lerp(this.scene.rotation.y, (vars.mouseCoords.x * Math.PI) / 10, 0.05);
-      this.scene.rotation.x = THREE.MathUtils.lerp(this.scene.rotation.x, (vars.mouseCoords.y * Math.PI) / 10, 0.05);
+      scenes[activeScene].rotation.y = THREE.MathUtils.lerp(scenes[activeScene].rotation.y, (vars.mouseCoords.x * Math.PI) / 10, 0.05);
+      scenes[activeScene].rotation.x = THREE.MathUtils.lerp(scenes[activeScene].rotation.x, (vars.mouseCoords.y * Math.PI) / 10, 0.05);
     }
 
     // RAF

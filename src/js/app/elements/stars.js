@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import vars from '../vars';
 
 let stars = [];
-let radius = 500;
+let radius = 250;
 let sphere;
 
 export default class Stars {
@@ -18,7 +18,7 @@ export default class Stars {
         for ( var z= -radius; z < radius; z+=10 ) {
 
             var geometry   = new THREE.SphereGeometry(0.4, 3, 3)
-            var material = new THREE.MeshBasicMaterial( {color: 0x4FA1D8} );
+            var material = new THREE.MeshPhongMaterial( {color: 0xB8E4F0} );
             sphere = new THREE.Mesh(geometry, material)
 
             sphere.position.x = Math.random() * radius - (radius*.5);

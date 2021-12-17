@@ -92,8 +92,6 @@
 
 /*! three */
 
-/*! three/examples/jsm/loaders/OBJLoader */
-
 /*! three/examples/jsm/postprocessing/EffectComposer.js */
 
 /*! three/examples/jsm/postprocessing/RenderPass */

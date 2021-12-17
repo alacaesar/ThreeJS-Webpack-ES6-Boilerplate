@@ -37,23 +37,23 @@ const simplex = new SimplexNoise();
 var mixer;
 
 const modelHolderObject = new THREE.Object3D();
+const object = new THREE.Object3D();
 
 export default class Platform {
     constructor(main) {
-        this.init(main);
 
-        this.lights
+        this.lights;
     }
   
-    init(main) {
+    init() {
 
         const _this = this;
 
-        this.scene = main.scene2;
-        this.object = new THREE.Object3D();
+        this.scene = vars.main.scene2;
         lights = new THREE.Object3D();
 
-        this.scene.add(modelHolderObject);
+        modelHolderObject.position.y = -10;
+        object.add(modelHolderObject);
 
         platformConfig = variants.platform[Math.floor(variants.platform.length * Math.random())];
         lightConfig = variants.light[Math.floor(variants.light.length * Math.random())];
@@ -63,15 +63,15 @@ export default class Platform {
             geometry,
             new Material("#5AA9DD").standard
         );
-        this.object.add(plane);
+        //object.add(plane);
         //this.scene.add(this.object);
-        this.scene.add(lights);
+        //this.scene.add(lights);
 
-        //vars.loopFunctions.push([this.animate, "ANIMATE_EARTH"]);
+        vars.loopFunctions.push([this.animate, "ANIMATE_EARTH", 1]);
 
         var landGeometry = new THREE.PlaneGeometry(1600, 1600, 20, 32, 32);
             landGeometry.setAttribute("basePosition", new THREE.BufferAttribute().copy(landGeometry.attributes.position));
-        var landMaterial = new Material('#14134F').standard;
+        var landMaterial = new Material('#076CAE').standard;
         this.land = new THREE.Mesh(landGeometry, landMaterial);
         this.land.rotation.set(90 * THREE.Math.DEG2RAD, 0, 0);
         this.land.position.y = -10;
@@ -86,12 +86,11 @@ export default class Platform {
 
             //console.log('before', vertex.x);
 
-
             var perlin = simplex.noise3D(
                 vertex.x * 0.06 + 1 * 0.002,
                 vertex.y * 0.06 + 1 * 0.003,
                 vertex.z * 0.06 + 1 * 0.005
-                );
+            );
 
             //var ratio = perlin * 0.4 * ( mouse.y + 0.1 ) + 0.8;
             var ratio = perlin * 0.4 * 0.1 + 0.8;
@@ -107,76 +106,75 @@ export default class Platform {
         this.land.geometry.attributes.position.needsUpdate = true; // required after the first render
         this.land.geometry.computeBoundingSphere();
 
-        this.scene.add(this.land);
+        object.add(this.land);
 
-        this.addGrass(this.scene);
+        this.addGrass();
         //this.addLights(lights);
-        this.addFireflies(this.scene);
-        this.addModel(this.scene);
+        this.addFireflies();
+        this.addModel();
         //this.addObject(main);
+
+        object.position.set(-10, -5, 0);
+
+        this.scene.add(object);
+
+        vars.platformIsInitialized = true;
     }
 
-    addObject(scene){
-        let loader = new OBJLoader();
-		loader.load(
-            // resource URL
-            './assets/models/01_Flag_lowPoly.obj',
-            // called when resource is loaded
-            function ( object ) {
+    dispose(){
+        fx.removeFromLoop("ANIMATE_MODEL");
+        fx.removeFromLoop("ANIMATE_FLIES");
 
-                object.scale.set(.2, .2, .2);
-                object.rotation.set(-90 * THREE.Math.DEG2RAD, 0, 0);
-                object.position.set(0, 5, 0);
-        
-                modelHolderObject.add( object );
-        
-            },
-            // called when loading is in progresses
-            function ( xhr ) {
-        
-                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        
-            },
-            // called when loading has errors
-            function ( error ) {
-        
-                console.log( 'An error happened' );
-        
-            }
-        );
+        var parent = vars.main.scene2;
+
+        for (var i = parent.children.length - 1; i >= 0; i--) {
+            parent.remove(parent.children[i]);
+        }
+
+        flies.children.forEach(element => flies.remove(element));
+
+        vars.platformIsInitialized = false;
     }
 
     removeModel(){
         fx.removeFromLoop("ANIMATE_MODEL");
+        fx.removeFromLoop("ANIMATE_FLIES");
+
+        var parent = modelHolderObject;
         
-        for (var i = modelHolderObject.children.length - 1; i >= 0; i--) {
-            modelHolderObject.remove(modelHolderObject.children[i]);
+        for (var i = parent.children.length - 1; i >= 0; i--) {
+            parent.remove(parent.children[i]);
         }
     }
 
-    addModel(scene){
+    addModel(){
+
+        let milestone = vars.currentMilestone;
 
         const _this = this;
         
         const loader = new GLTFLoader().setPath( './assets/models/statues/' );
+
+        //const marble = new THREE.TextureLoader().load( '/assets/textures/marble.jpg' );
         
         loader.load(
-            '04_Statue_ILA3_2.glb',
+            milestone.model,
             function ( gltf ) {
-				
-                /*
-                gltf.scene.traverse( function ( child ) {
-					if ( child.isMesh ) {
-                        console.log("is mesh");
-					}
 
-				});
-                */
+                var model = gltf.scene;
+                model.traverse((o) => {
+                    if (o.isMesh) o.material = new THREE.MeshPhysicalMaterial({
+                        color:0xFFFFFF,
+                        //map:marble,
+                        roughness:.98,
+                        metalness: .5,
+                    });
+                  });
 
-                gltf.scene.scale.set(.8, .8, .8);
+                gltf.scene.scale.set(1.3, 1.3, 1.3);
                 gltf.scene.position.set(0, 0, 0);
 
-				scene.add( gltf.scene );
+				modelHolderObject.add( gltf.scene );
 
                 mixer = new THREE.AnimationMixer( gltf.scene );
         
@@ -184,7 +182,7 @@ export default class Platform {
                     mixer.clipAction( clip ).play();
                 });
 
-                vars.loopFunctions.push([_this.animateModel, "ANIMATE_MODEL"]);
+                vars.loopFunctions.push([_this.animateModel, "ANIMATE_MODEL", 1]);
 						
             });
     }
@@ -195,30 +193,31 @@ export default class Platform {
 
     addFireflies(scene){
 
-        const sphere = new THREE.SphereGeometry( 0.2, 3, 3 );
+        const sphere = new THREE.SphereGeometry( 0.1, 3, 3 );
 
         //lights
-        let light1 = new THREE.PointLight( 0xff0040, 2, 80 );
-        light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xff0040 } ) ) );
+        let light1 = new THREE.PointLight( 0x9145B6, 2, 30 );
+        light1.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x9145B6 } ) ) );
         flies.add( light1 );
 
-        let light2 = new THREE.PointLight( 0x0040ff, 2, 80 );
+        let light2 = new THREE.PointLight( 0x0040ff, 2, 30 );
         light2.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x0040ff } ) ) );
         flies.add( light2 );
 
-        let light3 = new THREE.PointLight( 0x80ff80, 2, 80 );
+        let light3 = new THREE.PointLight( 0x80ff80, 2, 30 );
         light3.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0x80ff80 } ) ) );
         flies.add( light3 );
 
-        let light4 = new THREE.PointLight( 0xffaa00, 2, 80 );
+        let light4 = new THREE.PointLight( 0xffaa00, 2, 30 );
         light4.add( new THREE.Mesh( sphere, new THREE.MeshBasicMaterial( { color: 0xffaa00 } ) ) );
         flies.add( light4 );
 
-        flies.position.y = 10;
+        flies.position.y = 15;
 
-        scene.add( flies );
+        object.add( flies );
 
-        vars.loopFunctions.push([this.animateFlies, "ANIMATE_FLIES"]);
+        this.animateFlies(1);
+        vars.loopFunctions.push([this.animateFlies, "ANIMATE_FLIES", 1]);
     }
 
     animateFlies(time){
@@ -257,16 +256,16 @@ export default class Platform {
         const gap = 5;
 
         let mergedGeometry = new THREE.BufferGeometry();
-        let saplingGeometry = new THREE.CylinderBufferGeometry(.5,.5,8,3);
+        let saplingGeometry = new THREE.CylinderBufferGeometry(.5,.5,6,3);
         
-        /*
+        
         let grassMaterial = new THREE.ShaderMaterial({
             uniforms: {
-                color1: {
-                  value: new THREE.Color("green")
-                },
                 color2: {
-                  value: new THREE.Color("blue")
+                  value: new THREE.Color("#193498")
+                },
+                color1: {
+                  value: new THREE.Color("#B958A5")
                 }
               },
               vertexShader: `
@@ -289,8 +288,8 @@ export default class Platform {
                 }
               `
         });
-        */
-        let grassMaterial = new Material("#14134F").standard;
+        
+        //let grassMaterial = new Material("#B958A5").standard;
 
         const geometries = [];
 
@@ -331,7 +330,7 @@ export default class Platform {
         let grass = new THREE.Mesh(mergedGeometry, grassMaterial);
             grass.position.set(-radius * gap * .5, -12, -radius * gap * .5);
 
-        scene.add(grass);
+        object.add(grass);
 
     }
 
@@ -359,7 +358,7 @@ export default class Platform {
     }
 
     animate(){
-        lights.rotation.y += .002;
+       //object.rotation.y += .0007;
     }
 
   }

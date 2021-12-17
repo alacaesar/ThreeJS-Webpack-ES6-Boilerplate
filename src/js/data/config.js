@@ -56,25 +56,34 @@ export default {
     night: {r:21, g:17, b:31}
   },
   fog: {
-    color: 0x14134F,
+    color: 0x003DB2,
     near: 0.002
   },
+  fog2: {
+    color: 0x002B7E,
+    near: 0.004
+  },
   camera: {
-    fov: 50,
+    fov: 45,
     near: 1,
     far: 3000,
     aspect: 1,
     posX: 0,
     posY: 0,
-    posZ: 100
+    posZ: 300
+  },
+  platformCamera:{
+    posX: 0,
+    posY: 0,
+    posZ: 60
   },
   controls: {
     autoRotate: false,
     autoRotateSpeed: -0.5,
     rotateSpeed: 0.5,
     zoomSpeed: 0.8,
-    minDistance: 100,
-    maxDistance: 1200,
+    minDistance: 160,
+    maxDistance: 400,
     minPolarAngle: Math.PI / 5,
     maxPolarAngle: Math.PI / 2,
     minAzimuthAngle: -Infinity,
@@ -90,7 +99,7 @@ export default {
   },
   ambientLight: {
     enabled: true,
-    color: 0x141414
+    color: 0x333333
   },
   directionalLight: {
     enabled: true,

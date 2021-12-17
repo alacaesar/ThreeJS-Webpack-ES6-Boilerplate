@@ -40,7 +40,7 @@ var fx = {
     },
 
     removeFromLoop: (fx) => {
-        let loopFunctions = vars.loopFunctions;
+        const loopFunctions = vars.loopFunctions;
         for (var i in loopFunctions)
           if (loopFunctions[i][1] === fx) loopFunctions.splice(i, 1);
     },
