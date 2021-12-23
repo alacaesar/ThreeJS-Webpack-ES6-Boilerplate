@@ -223,12 +223,12 @@ export default class Main {
   render() {
 
     // Call render function and pass in created scene and camera
-    //this.renderer.render(this.scene, this.camera.threeCamera);
+    this.renderer.render(this.scene, this.camera.threeCamera);
 
     distortPass.material.uniforms.baseIor.value = params.baseIor;
     distortPass.material.uniforms.bandOffset.value = params.bandOffset;
     
-    composers[activeScene].render();
+   //composers[activeScene].render();
     
     const delta = this.clock.getDelta();
 
