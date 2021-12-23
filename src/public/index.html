@@ -2,7 +2,52 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Three.js Webpack ES6 Boilerplate</title>
+    <title id="mobiquity">Mobiquity Milestones</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PMNBWMSG9D"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PMNBWMSG9D');
+    </script>
+
+    <link rel="preload" as="font" href="https://mobiquitymilestones.com/assets/fonts/RecifeDisplayWeb-Regular.woff" type="font/woff" crossorigin="anonymous">
+    <link rel="preload" as="font" href="https://mobiquitymilestones.com/assets/fonts/RecifeDisplayWeb-Regular.woff2" type="font/woff2" crossorigin="anonymous">
+
+    <link rel="apple-touch-icon" sizes="144x144" href="https://mobiquitymilestones.com/assets/icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="https://mobiquitymilestones.com/assets/icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="https://mobiquitymilestones.com/assets/icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://mobiquitymilestones.com/assets/icons/favicon-16x16.png" sizes="16x16" />
+    <meta name="application-name" content="Mobiquity Milestones"/>
+    <meta name="msapplication-TileColor" content="#5AA9DD" />
+    <meta name="msapplication-TileImage" content="https://mobiquitymilestones.com/assets/icons/mstile-144x144.png" />
+    <meta name="theme-color" content="#5AA9DD"/>
+
+    <meta name="description" content="Mobiquity Milestones is a web experience celebrating a decade of impactful digital experiences all around the world."/>
+    <link rel="canonical" href="https://mobiquitymilestones.com"/>
+    
+    <meta property="og:url" content="https://mobiquitymilestones.com"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="Mobiquity Milestones"/>
+    <meta property="og:description" content="Mobiquity Milestones is a web experience celebrating a decade of impactful digital experiences all around the world."/>
+    <meta property="og:image" content="https://mobiquitymilestones.com/assets/thumbnail/mobiquitymilestones-thumbnail.jpg"/>
+    <meta property="og:image:width" content="960"/> <meta property="og:image:height" content="640"/>
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@mobiquityinc">
+    <meta name="twitter:creator" content="@mobiquityincEU">
+    <meta name="twitter:title" content="Mobiquity Milestones"/>
+    <meta name="twitter:description" content="Mobiquity Milestones is a web experience celebrating a decade of impactful digital experiences all around the world."/>
+    <meta name="twitter:image" content="https://mobiquitymilestones.com/assets/thumbnail/mobiquitymilestones-thumbnail.jpg"/>
+    <link rel="manifest" href="https://mobiquitymilestones.com/site.json">
+
+    <link href="js/../css/style.css" rel="stylesheet">
+
   <script defer src="/js/runtime.bundle.js"></script><script defer src="/js/vendors.bundle.js"></script><script defer src="/js/main.bundle.js"></script><link href="/js/../css/main.css" rel="stylesheet"></head>
 
   <body>
@@ -13,20 +58,27 @@
     <main class="overlay">
 
       <header>
-        <h1>10th<br>Anniversary</h1>
-        <a class="logo" href="#">
-          <svg width="150" height="63">
+        <h1>Mobiquity Milestones</h1>
+        <a class="logo" href="https://www.mobiquity.com/" target="blank">
+          <span>Mobiquity</span>
+          <svg width="123" height="40">
             <use href="/assets/icons/icons.svg#mobiquity"></use>
           </svg>
         </a>
     </header>
 
     <!-- Preload -->
-    <section class="preload hide">
+    <section class="preload">
       <div class="shield">
-        <svg width="100" height="75" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg id="mlogo" width="100" height="75" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path id="pill" d="M2.5 37.5C2.5 18.17 18.17 2.5 37.5 2.5H62.5C81.83 2.5 97.5 18.17 97.5 37.5V37.5C97.5 56.83 81.83 72.5 62.5 72.5H37.5C18.17 72.5 2.5 56.83 2.5 37.5V37.5Z" stroke-linecap="round" />
           <path id="mob" d="M 31 48 L 31 33.5 C 31 27.21, 36.8 26, 40 26 C 43.2 26, 50.25 26.5, 50.25 33.5 L 50.25 48 M 50.25 33.5 C 50.5 26.5, 56.5 26, 60.5 26 C 64.5 26, 69.5 27.71, 69.5 33.5 L 69.5 48" stroke-linejoin="round" stroke-linecap="round" />
+        </svg>
+        <svg id="flogo" width="137" height="32">
+          <use href="/assets/icons/icons.svg#obiquity"></use>
+        </svg>
+        <svg id="hexaware" width="155" height="17">
+          <use href="/assets/icons/icons.svg#hexaware"></use>
         </svg>
       </div>
     </section>
@@ -34,15 +86,60 @@
     <!-- Intro -->
     <section class="intro hide">
       <div class="inside medium">
-        <p class="off anim-words">Celebrating 10 years of impactful positive digital footprint all around the world</p>
+        <figure>
+          <p id="ml1" class="off anim-words">Mobiquity</p>
+          <p id="ml2" class="off anim-words made">
+            <span class="letter"><span>M</span></span><span class="letter"><span>i</span></span><span class="letter"><span><svg width="20" height="53" viewBox="-3 0 16 53"><use href="/assets/icons/icons.svg#monument"></use></svg></span></span><span class="letter"><span>e</span></span><span class="letter"><span>s</span></span><span class="letter"><span>t</span></span><span class="letter"><span>o</span></span><span class="letter"><span>n</span></span><span class="letter"><span>e</span></span><span class="letter"><span>s</span></span>
+          </p>
+          <svg class="arc" width="330" height="330" viewBox="0 0 330 330">
+            <use href="/assets/icons/icons.svg#arc"></use>
+          </svg>
+          <svg class="dots" width="330" height="330" viewBox="0 0 330 330">
+            <use href="/assets/icons/icons.svg#dots"></use>
+          </svg>
+        </figure>
+        <p class="off anim-words">A decade of impactful digital experiences all around the world</p>
+        <button class="btn" id="introStartBtn" alt="Start"><span>Let's go</span></button>
       </div>
+      <button class="btn link" id="readMoreBtn" alt="Start"><span>About the project</span></button>
     </section>
 
     <!-- Globe -->
     <section class="globe hide">
-      <div class="inside medium left">
-        <p class="off anim-words"><$Start$> <$exploring$> Mobiquity's milestones in the past decade</p>
-        <button class="startBtn" alt="Let's go"><span>Let's go</span></button>
+      <div class="inside narrow center">
+        <svg width="64" height="32">
+            <g opacity="0.5">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M32 29C39.1797 29 45 23.1797 45 16C45 8.8203 39.1797 3 32 3C24.8203 3 19 8.8203 19 16C19 23.1797 24.8203 29 32 29ZM32 30C39.732 30 46 23.732 46 16C46 8.26801 39.732 2 32 2C24.268 2 18 8.26801 18 16C18 23.732 24.268 30 32 30Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M44.188 22.11C44.1881 22.1101 44.1882 22.1102 43.8476 22.4762C43.507 22.8422 43.5071 22.8423 43.5071 22.8423L43.5044 22.8398L43.4941 22.8304L43.4506 22.7908C43.4116 22.7556 43.3527 22.7029 43.2748 22.6347C43.119 22.4983 42.8872 22.2999 42.5868 22.055C41.9857 21.5651 41.1105 20.8898 40.0189 20.1524C37.8323 18.6755 34.7942 16.9612 31.3626 15.9808C27.6128 14.9094 24.4976 14.6584 22.3267 14.6736C21.2412 14.6813 20.3918 14.7555 19.8173 14.8269C19.5301 14.8627 19.3117 14.8977 19.1669 14.9234C19.0945 14.9363 19.0405 14.9468 19.0056 14.9539L18.9675 14.9618L18.9593 14.9636L18.9581 14.9638C18.9583 14.9638 18.9584 14.9638 18.8476 14.4762C18.7368 13.9886 18.737 13.9886 18.7372 13.9886L18.7391 13.9881L18.7433 13.9872L18.7572 13.9842C18.7689 13.9817 18.7854 13.9782 18.8068 13.9738C18.8496 13.9652 18.9115 13.9531 18.9921 13.9388C19.1532 13.9102 19.3888 13.8725 19.6938 13.8346C20.304 13.7587 21.1924 13.6816 22.3197 13.6737C24.5747 13.6578 27.7857 13.9188 31.6374 15.0192C35.2058 16.0388 38.3415 17.8126 40.5787 19.3238C41.699 20.0805 42.5983 20.7743 43.2186 21.2799C43.5288 21.5327 43.7695 21.7387 43.9335 21.8823C44.0155 21.954 44.0783 22.0102 44.1211 22.0489L44.17 22.0934L44.183 22.1053L44.1866 22.1087L44.188 22.11Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M37.7046 28.4656C37.7046 28.4658 37.7046 28.4659 37.2086 28.4024C36.7127 28.3389 36.7126 28.339 36.7126 28.3391L36.7131 28.3353L36.7148 28.3211L36.7218 28.2614C36.7278 28.208 36.7365 28.1278 36.7468 28.0225C36.7672 27.8119 36.794 27.5014 36.8184 27.1063C36.8673 26.3157 36.9069 25.1874 36.8691 23.8426C36.7935 21.1488 36.4081 17.6067 35.1793 14.1746C33.8366 10.4246 32.1908 7.68959 30.8859 5.89666C30.2334 5.00011 29.6661 4.33914 29.2647 3.90473C29.0641 3.68753 28.9049 3.52701 28.7973 3.42204C28.7435 3.36956 28.7026 3.33097 28.6758 3.30614L28.6465 3.27918L28.6401 3.27341L28.6392 3.27256C28.6393 3.27265 28.6394 3.27276 28.971 2.89857C29.3027 2.52437 29.3028 2.52451 29.303 2.52465L29.3045 2.52597L29.3077 2.52886L29.3184 2.53854C29.3274 2.54672 29.3402 2.55836 29.3565 2.57349C29.389 2.60375 29.4358 2.64795 29.4956 2.70623C29.615 2.82278 29.7863 2.99568 29.9992 3.22609C30.425 3.68688 31.0173 4.37784 31.6944 5.30821C33.0488 7.16909 34.7424 9.98782 36.1207 13.8375C37.3975 17.4036 37.7914 21.0598 37.8687 23.8146C37.9074 25.1941 37.8669 26.3527 37.8165 27.168C37.7913 27.5757 37.7636 27.8979 37.7421 28.1193C37.7313 28.23 37.7221 28.3155 37.7155 28.3739L37.7076 28.4409L37.7055 28.4588L37.7048 28.4637L37.7046 28.4656Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M39.9254 4.5056C39.9256 4.50556 39.9258 4.50553 40 5C40.0742 5.49447 40.0743 5.49445 40.0744 5.49444C40.0744 5.49444 40.0744 5.49443 40.0744 5.49444L40.0696 5.49518L40.0507 5.49817C40.0335 5.50094 40.0071 5.5053 39.9719 5.51138C39.9015 5.52355 39.7961 5.5426 39.6596 5.56964C39.3867 5.62373 38.9897 5.70969 38.4997 5.83627C37.519 6.08963 36.1698 6.50465 34.6984 7.15021C31.7466 8.44531 28.3567 10.6444 26.4212 14.274C24.5622 17.7601 24.0118 20.875 23.923 23.1103C23.8786 24.2287 23.9497 25.1275 24.0309 25.7425C24.0715 26.05 24.1145 26.2863 24.1468 26.4435C24.1629 26.5221 24.1763 26.5808 24.1854 26.6188C24.19 26.6377 24.1934 26.6515 24.1956 26.6599L24.1978 26.6685C24.1978 26.6683 24.1979 26.669 23.7155 26.8003C23.233 26.9315 23.2329 26.9312 23.2329 26.931L23.2322 26.9287L23.2309 26.9238L23.2268 26.9078C23.2234 26.8945 23.2187 26.8757 23.2129 26.8516C23.2014 26.8035 23.1856 26.7341 23.1672 26.6446C23.1304 26.4656 23.0833 26.2058 23.0395 25.8733C22.9518 25.2085 22.8769 24.2523 22.9238 23.0706C23.0177 20.7059 23.5996 17.4401 25.5388 13.8035C27.6233 9.89437 31.2434 7.57406 34.2966 6.23447C35.8277 5.56269 37.2297 5.13154 38.2496 4.86806C38.7599 4.73623 39.1756 4.64611 39.4653 4.58871C39.6101 4.56001 39.7235 4.53948 39.8016 4.52599C39.8406 4.51925 39.8708 4.51426 39.8917 4.5109L39.9159 4.50705L39.9227 4.50601L39.9254 4.5056Z" fill="white"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M23.6079 26.9882C23.6077 26.9883 23.6075 26.9883 23.5 26.5C23.3925 26.0117 23.3924 26.0117 23.3923 26.0117L23.3962 26.0109L23.4122 26.0072C23.4269 26.0038 23.4496 25.9985 23.4799 25.9911C23.5405 25.9764 23.6316 25.9536 23.7502 25.9219C23.9873 25.8584 24.3341 25.7595 24.7667 25.6189C25.6321 25.3375 26.8385 24.8899 28.195 24.2271C30.9128 22.8992 34.2059 20.721 36.584 17.3107C38.8691 14.0335 40.1005 11.4219 40.7595 9.64174C41.0891 8.75149 41.2758 8.06851 41.3796 7.61342C41.4315 7.38586 41.4627 7.21519 41.4807 7.104C41.4897 7.04841 41.4953 7.00767 41.4986 6.98212L41.5019 6.95522L41.5024 6.95089C41.5024 6.9511 41.5024 6.95132 42 7C42.4976 7.04868 42.4976 7.04894 42.4976 7.04921L42.4974 7.05133L42.4969 7.05544L42.4956 7.068C42.4944 7.0783 42.4927 7.09245 42.4904 7.11041C42.4857 7.14632 42.4785 7.19746 42.4679 7.2635C42.4465 7.39558 42.4113 7.58722 42.3546 7.83579C42.2412 8.333 42.0421 9.05769 41.6973 9.98893C41.0077 11.8518 39.7361 14.5385 37.4042 17.8826C34.8955 21.4804 31.4416 23.7538 28.634 25.1256C27.2279 25.8126 25.977 26.2769 25.0759 26.5699C24.6251 26.7164 24.2613 26.8203 24.0086 26.8879C23.8823 26.9217 23.7836 26.9464 23.7158 26.9629C23.6819 26.9711 23.6556 26.9773 23.6375 26.9815L23.6163 26.9863L23.6104 26.9877L23.6079 26.9882Z" fill="white"/>
+            </g>
+            <circle cx="18.5" cy="14.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="28.5" cy="2.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="39.5" cy="4.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="42.5" cy="7.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="43.5" cy="22.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="32.5" cy="7.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="36.5" cy="17.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="23.5" cy="25.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="37.5" cy="27.5" r="1.5" fill="#DCDFE3"/>
+            <circle cx="25.5" cy="14.5" r="1.5" fill="#DCDFE3"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M1.06592 21.7524C1.38173 20.5946 2.37427 19.4786 3.90818 18.4396C5.4392 17.4026 7.44671 16.4851 9.66574 15.7091C14.1035 14.1572 19.2999 13.2011 23 12.9628L22.9336 12C19.1442 12.2441 13.8555 13.2178 9.32592 14.8018C7.0613 15.5937 4.96458 16.5457 3.33499 17.6495C1.71537 18.7466 0.49297 20.0373 0.0947518 21.5272L0.0904444 21.5433L0.0872966 21.5596C-0.328603 23.7218 0.791152 25.4871 2.39271 26.8464C3.86981 28.1001 5.81987 29.0685 7.58448 29.7729L6.84846 32L12.4816 30.8142L8.60228 26.6932L7.88933 28.8505C6.19356 28.168 4.39154 27.2586 3.05171 26.1214C1.58778 24.8789 0.749533 23.4348 1.06592 21.7524Z" fill="url(#paint0_linear_304_232)"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M62.9341 21.7524C62.6183 20.5946 61.6257 19.4786 60.0918 18.4396C58.5608 17.4026 56.5533 16.4851 54.3343 15.7091C49.8965 14.1572 44.7001 13.2011 41 12.9628L41.0664 12C44.8558 12.2441 50.1445 13.2178 54.6741 14.8018C56.9387 15.5937 59.0354 16.5457 60.665 17.6495C62.2846 18.7466 63.507 20.0373 63.9052 21.5272L63.9096 21.5433L63.9127 21.5596C64.3286 23.7218 63.2088 25.4871 61.6073 26.8464C60.1302 28.1001 58.1801 29.0685 56.4155 29.7729L57.1515 32L51.5184 30.8142L55.3977 26.6932L56.1107 28.8505C57.8064 28.168 59.6085 27.2586 60.9483 26.1214C62.4122 24.8789 63.2505 23.4348 62.9341 21.7524Z" fill="url(#paint1_linear_304_232)"/>
+            <defs>
+            <linearGradient id="paint0_linear_304_232" x1="6.5" y1="31.5" x2="22.8005" y2="10.9453" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" stop-opacity="0.5"/>
+            <stop offset="1" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="paint1_linear_304_232" x1="57.5" y1="32" x2="41.6989" y2="11.4623" gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" stop-opacity="0.5"/>
+            <stop offset="1" stop-color="white" stop-opacity="0"/>
+            </linearGradient>
+            </defs>   
+        </svg>
+        <p class="off anim-words">Start the journey</p>
+        <!-- <button class="startBtn" id="btn" alt="Let's go"><span>Let's go</span></button> -->
       </div>
       <ul class="milestones"></ul>
     </section>
@@ -52,16 +149,17 @@
       <div class="inside">
         <h2></h2>
       </div>
+      <div class="yearBubble"><span></span></div>
     </section>
 
     <!-- Statue -->
-    <section class="statue">
+    <section class="statue hide">
       <div class="inside narrow right cursor-play">
         <div class="info">
           <span class="where"></span> — <span class="when"></span>
         </div>
-        <h3 class="off anim-words">Panera self-service kiosks</h3>
-        <p class="off anim-words">Panera partners with Mobiquity to set new digital standard for quick service restaurants. We created an omnichannel eCommerce platform introducing self-service kiosks & mobile ordering</p>
+        <h3 class="off anim-words">The next frontier</h3>
+        <p class="off anim-words">Mobiquity marks its 10 year anniversary with a renewed focus on digital products and sets course to help brands achieve brand gravity in the digital space. And if you'd like to join us in that adventure as a client or a colleague, be sure to reach out!</p>
 
         <figure>
           <svg class="equilizer" width="32px" height="32px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
@@ -90,13 +188,13 @@
       </div>
       <nav>
 
-        <button class="previousBtn"><span>Previous Milestone</span>
+        <button class="previousBtn hide" id="previousBtn"><span>Previous Milestone</span>
           <svg class="icon">
             <use href="/assets/icons/icons.svg#arrow-up"></use>
           </svg>
         </button>
 
-        <button class="backBtn"><span>Back</span>
+        <button class="backBtn" id="backBtn"><span>Back</span>
           <svg class="icon">
             <use href="/assets/icons/icons.svg#globe"></use>
           </svg>
@@ -115,7 +213,7 @@
           </svg>
         </button>
 
-        <button class="nextBtn"><span>Next Milestone</span>
+        <button class="nextBtn hide" id="nextBtn"><span>Next Milestone</span>
           <svg class="icon">
             <use href="/assets/icons/icons.svg#arrow-down"></use>
           </svg>
@@ -124,11 +222,28 @@
       </nav>
     </section>
 
+    <section class="about hide">
+      <div class="inside center wide">
+        <p class="large">Mobiquity has made quite the journey over the past decade. We've worked together with amazing brands to design, build and market digital products & services that people enjoy using. Always starting with a human challenge and then applying the right technology to fix it.</p>
+        <p>Next to great products, we're also proud of the great culture we've built together. Where we nurture collaboration to ensure our talented and diverse group of people always comes up with the best possible solution.</p>
+        <p>The Mobiquity Milestones celebrates our past decade. Each stop provides a glimpse into a point in time along that journey. As we move into the next decade, we are excited to gather many, many more of these memorable milestones.
+        <p>And if you'd like to join us in that adventure as a client or a colleague, be sure to reach out!</p>
+        <div class="actions">
+          <button class="btn link" id="closeAboutBtn" alt="Start"><span>Go back</span></button>
+        </div>
+      </div>
+    </section>
+
     </main>
 
     <footer>
-      <audio class="ambient" src="/assets/audios/ambient.mp3" type="audio/mpeg" preload="auto"></audio>
+      <audio class="ambient" src="/assets/audios/ambient.mp3" type="audio/mpeg" preload="none"></audio>
       <audio class="bip" src="/assets/audios/bip.mp3" type="audio/mpeg" preload="auto"></audio>
+      <button class="music paused" id="musicBtn">
+        <svg class="icon">
+          <use href="/assets/icons/icons.svg#music"></use>
+        </svg>
+        <span>Play</span></button>
     </footer>
 
     
@@ -136,8 +251,13 @@
     <script src="js/rStats.extras.js"></script>
     <script src="js/dat.gui.min.js"></script>
     
-    
-    <link href="/css/style.css" rel="stylesheet">
 
   </body>
+  <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('sw.js').then(function(registration) {}, function(err) {});
+        });
+    }
+  </script>
 </html>

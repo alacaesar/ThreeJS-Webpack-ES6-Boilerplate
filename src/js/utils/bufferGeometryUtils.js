@@ -48,7 +48,7 @@ var BufferGeometryUtils = {
     var tangents = attributes.tangent.array;
 
     var tan1 = [],
-        tan2 = [];
+      tan2 = [];
 
     for (var i = 0; i < nVertices; i++) {
       tan1[i] = new Vector3();
@@ -56,13 +56,13 @@ var BufferGeometryUtils = {
     }
 
     var vA = new Vector3(),
-        vB = new Vector3(),
-        vC = new Vector3(),
-        uvA = new Vector2(),
-        uvB = new Vector2(),
-        uvC = new Vector2(),
-        sdir = new Vector3(),
-        tdir = new Vector3();
+      vB = new Vector3(),
+      vC = new Vector3(),
+      uvA = new Vector2(),
+      uvB = new Vector2(),
+      uvC = new Vector2(),
+      sdir = new Vector3(),
+      tdir = new Vector3();
 
     function handleTriangle(a, b, c) {
       vA.fromArray(positions, a * 3);
@@ -120,9 +120,9 @@ var BufferGeometryUtils = {
     }
 
     var tmp = new Vector3(),
-        tmp2 = new Vector3();
+      tmp2 = new Vector3();
     var n = new Vector3(),
-        n2 = new Vector3();
+      n2 = new Vector3();
     var w, t, test;
 
     function handleVertex(v) {

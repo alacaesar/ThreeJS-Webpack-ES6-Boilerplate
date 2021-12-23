@@ -2,15 +2,15 @@
 
 export const FilmGrainShader = {
 
-	uniforms: {
+  uniforms: {
 
-		tDiffuse: { value: null },
-		intensity: { value: 0.075 },
-		noiseOffset: { value: 0.0 },
+    tDiffuse: { value: null },
+    intensity: { value: 0.075 },
+    noiseOffset: { value: 0.0 },
 
-	},
+  },
 
-	vertexShader: /* glsl */`
+  vertexShader: /* glsl */`
 
 		varying vec2 vUv;
 
@@ -23,7 +23,7 @@ export const FilmGrainShader = {
 
 	`,
 
-	fragmentShader: /* glsl */`
+  fragmentShader: /* glsl */`
 
 		// 0: Addition, 1: Screen, 2: Overlay, 3: Soft Light, 4: Lighten-Only
 		#define BLEND_MODE 0

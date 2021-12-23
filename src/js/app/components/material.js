@@ -10,7 +10,7 @@ export default class Material {
 
     this.standard = new THREE.MeshStandardMaterial({
       color,
-      shading: THREE.FlatShading,
+      flatShading: true,
       roughness: 1,
       metalness: 0,
       side: THREE.DoubleSide

@@ -67,8 +67,6 @@ export default class Platform {
         //this.scene.add(this.object);
         //this.scene.add(lights);
 
-        vars.loopFunctions.push([this.animate, "ANIMATE_EARTH", 1]);
-
         var landGeometry = new THREE.PlaneGeometry(1600, 1600, 20, 32, 32);
             landGeometry.setAttribute("basePosition", new THREE.BufferAttribute().copy(landGeometry.attributes.position));
         var landMaterial = new Material('#076CAE').standard;
@@ -124,14 +122,12 @@ export default class Platform {
     dispose(){
         fx.removeFromLoop("ANIMATE_MODEL");
         fx.removeFromLoop("ANIMATE_FLIES");
+        
+        this.removeModel();
 
-        var parent = vars.main.scene2;
-
-        for (var i = parent.children.length - 1; i >= 0; i--) {
-            parent.remove(parent.children[i]);
+        for (var j = flies.children.length - 1; j >= 0; j--) {
+            flies.remove(flies.children[j]);
         }
-
-        flies.children.forEach(element => flies.remove(element));
 
         vars.platformIsInitialized = false;
     }
@@ -153,7 +149,7 @@ export default class Platform {
 
         const _this = this;
         
-        const loader = new GLTFLoader().setPath( './assets/models/statues/' );
+        const loader = new GLTFLoader().setPath( './assets/models/' );
 
         //const marble = new THREE.TextureLoader().load( '/assets/textures/marble.jpg' );
         
@@ -183,6 +179,7 @@ export default class Platform {
                 });
 
                 vars.loopFunctions.push([_this.animateModel, "ANIMATE_MODEL", 1]);
+                vars.loopFunctions.push([_this.animateFlies, "ANIMATE_FLIES", 1]);
 						
             });
     }
@@ -217,7 +214,7 @@ export default class Platform {
         object.add( flies );
 
         this.animateFlies(1);
-        vars.loopFunctions.push([this.animateFlies, "ANIMATE_FLIES", 1]);
+        //vars.loopFunctions.push([this.animateFlies, "ANIMATE_FLIES", 1]);
     }
 
     animateFlies(time){
@@ -297,18 +294,11 @@ export default class Platform {
 
             let row = Math.floor( i / radius );
 
-            var perlin = simplex.noise2D(
-                i - row * radius * 0.000000001,
-                row * 0.000000001,
-            );
+            var perlin = simplex.noise2D( i - row * radius * 0.000000001, row * 0.000000001 );
 
             var ratio = perlin * 2;
 
-            matrix.makeTranslation(
-                (i - row * radius) * gap,
-                -ratio,
-                row * gap,
-            )
+            matrix.makeTranslation((i - row * radius) * gap, -ratio, row * gap);
 
             /*
             matrix.makeTranslation(
@@ -356,9 +346,4 @@ export default class Platform {
         }
 
     }
-
-    animate(){
-       //object.rotation.y += .0007;
-    }
-
   }

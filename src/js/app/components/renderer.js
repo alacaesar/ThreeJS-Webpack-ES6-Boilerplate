@@ -12,14 +12,17 @@ export default class Renderer {
 
     // Create WebGL renderer and set its antialias
     this.threeRenderer = new THREE.WebGLRenderer({antialias: true});
+    this.threeRenderer.outputEncoding = THREE.sRGBEncoding;
 
     // Set clear color to fog to enable fog or to hex color for no fog
     this.threeRenderer.setClearColor(scene.fog.color);
     this.threeRenderer.setPixelRatio(window.devicePixelRatio); // For retina
 
+    /*
     var globalPlane = new THREE.Plane( new THREE.Vector3( - 1, 0, 0 ), 0);
+    this.threeRenderer.clippingPlanes = [ globalPlane ];
+    */
     this.threeRenderer.localClippingEnabled = true;
-    //this.threeRenderer.clippingPlanes = [ globalPlane ];
 
     // Appends canvas
     container.appendChild(this.threeRenderer.domElement);
@@ -46,7 +49,7 @@ export default class Renderer {
 
   render(scene, camera) {
     // Renders scene to canvas target
-    //this.threeRenderer.autoClear = false;
+    //this.threeRenderer.autoClear = true;
     this.threeRenderer.clear();
     this.threeRenderer.clearDepth();
     this.threeRenderer.render(scene, camera);

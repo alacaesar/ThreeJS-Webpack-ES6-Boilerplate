@@ -53,7 +53,8 @@ export default {
   colors:{
     current: {r:79, g:161, b:216},
     day: {r:79, g:161, b:216},
-    night: {r:21, g:17, b:31}
+    night: {r:21, g:17, b:31},
+    globe: {r:0, g:61, b:178}
   },
   fog: {
     color: 0x003DB2,
@@ -104,7 +105,7 @@ export default {
   directionalLight: {
     enabled: true,
     color: 0xf0f0f0,
-    intensity: 0.4,
+    intensity: 0.2,
     x: -75,
     y: 180,
     z: 150

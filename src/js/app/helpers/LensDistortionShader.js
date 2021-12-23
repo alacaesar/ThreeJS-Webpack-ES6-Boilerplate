@@ -2,26 +2,26 @@
 
 export const LensDistortionShader = {
 
-	defines: {
+  defines: {
 
-		// 0: NONE, 1: RGB, 2: RYGCBV
-		BAND_MODE: 2,
+    // 0: NONE, 1: RGB, 2: RYGCBV
+    BAND_MODE: 2,
 
-		CHROMA_SAMPLES: 1,
+    CHROMA_SAMPLES: 1,
 
-	},
+  },
 
-	uniforms: {
+  uniforms: {
 
-		tDiffuse: { value: null },
-		baseIor: { value: 0.075 },
-		bandOffset: { value: 0.003 },
-		jitterIntensity: { value: 1.0 },
-		jitterOffset: { value: 0.0 },
+    tDiffuse: { value: null },
+    baseIor: { value: 0.075 },
+    bandOffset: { value: 0.003 },
+    jitterIntensity: { value: 1.0 },
+    jitterOffset: { value: 0.0 },
 
-	},
+  },
 
-	vertexShader: /* glsl */`
+  vertexShader: /* glsl */`
 
 		varying vec2 vUv;
 		varying vec3 viewDir;
@@ -36,7 +36,7 @@ export const LensDistortionShader = {
 
 	`,
 
-	fragmentShader: /* glsl */`
+  fragmentShader: /* glsl */`
 
 		varying vec2 vUv;
 		varying vec3 viewDir;

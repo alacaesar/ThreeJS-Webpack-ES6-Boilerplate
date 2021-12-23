@@ -959,9 +959,9 @@ const GLTFLoader = (function () {
     // CUBICSPLINE values layout in interpolate_() function below.
 
     var result = this.resultBuffer,
-        values = this.sampleValues,
-        valueSize = this.valueSize,
-        offset = index * valueSize * 3 + valueSize;
+      values = this.sampleValues,
+      valueSize = this.valueSize,
+      offset = index * valueSize * 3 + valueSize;
 
     for (var i = 0; i !== valueSize; i++) {
       result[i] = values[offset + i];
