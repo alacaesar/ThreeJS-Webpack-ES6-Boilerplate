@@ -74,6 +74,8 @@ export default class Overlay {
     const svg = document.querySelectorAll(".globe .inside svg");
     const stones = document.querySelectorAll(".globe .milestones li");
 
+    const stoneAnimArray = vars.mobile ? [0, -5, 5, 0] : [0, -10, 10, 0];
+
     anime.timeline({loop:false})
       .add({
         targets: texts,
@@ -91,7 +93,7 @@ export default class Overlay {
             
       }, 0).add({
         targets: stones,
-        translateY: [0, -10, 10, 0],
+        translateY: stoneAnimArray,
         easing: "easeInOutSine",
         duration: 777,
         delay: (el, i) => 55 * i
@@ -102,8 +104,13 @@ export default class Overlay {
     curtain = document.querySelector(".curtain");
     curtain.classList.remove("hide");
 
+    let focused = document.querySelector(".milestones li.focused");
+    if(focused){
+      focused.classList.remove("focused");
+    }
+
     const ms = document.querySelector(".milestones li:nth-child("+(milestone.id+1)+")");
-    ms.classList.add("visited");
+    ms.classList.add("visited", "focused");
         
     const h2 = document.querySelector(".curtain h2");
     const bubble = document.querySelector(".yearBubble span");

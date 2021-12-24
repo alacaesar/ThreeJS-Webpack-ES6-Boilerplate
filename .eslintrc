@@ -47,7 +47,8 @@
     "no-new-object": 1,
     "no-const-assign": 1,
     "prefer-const": 0,
-    "prefer-spread": 1
+    "prefer-spread": 1,
+    "no-useless-escape": 0
   },
   "env": {
     "es6": true,

@@ -23,26 +23,26 @@
     <link rel="apple-touch-icon" sizes="152x152" href="https://mobiquitymilestones.com/assets/icons/apple-touch-icon-152x152.png" />
     <link rel="icon" type="image/png" href="https://mobiquitymilestones.com/assets/icons/favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="https://mobiquitymilestones.com/assets/icons/favicon-16x16.png" sizes="16x16" />
-    <meta name="application-name" content="Mobiquity Milestones"/>
+    <meta name="application-name" content="Mobiquity"/>
     <meta name="msapplication-TileColor" content="#5AA9DD" />
     <meta name="msapplication-TileImage" content="https://mobiquitymilestones.com/assets/icons/mstile-144x144.png" />
     <meta name="theme-color" content="#5AA9DD"/>
 
-    <meta name="description" content="Mobiquity Milestones is a web experience celebrating a decade of impactful digital experiences all around the world."/>
+    <meta name="description" content="An immersive experience celebrating a decade of Mobiquity's digital impact around the globe."/>
     <link rel="canonical" href="https://mobiquitymilestones.com"/>
     
     <meta property="og:url" content="https://mobiquitymilestones.com"/>
     <meta property="og:type" content="website"/>
-    <meta property="og:title" content="Mobiquity Milestones"/>
-    <meta property="og:description" content="Mobiquity Milestones is a web experience celebrating a decade of impactful digital experiences all around the world."/>
+    <meta property="og:title" content="Mobiquity"/>
+    <meta property="og:description" content="An immersive experience celebrating a decade of Mobiquity's digital impact around the globe."/>
     <meta property="og:image" content="https://mobiquitymilestones.com/assets/thumbnail/mobiquitymilestones-thumbnail.jpg"/>
     <meta property="og:image:width" content="960"/> <meta property="og:image:height" content="640"/>
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@mobiquityinc">
     <meta name="twitter:creator" content="@mobiquityincEU">
-    <meta name="twitter:title" content="Mobiquity Milestones"/>
-    <meta name="twitter:description" content="Mobiquity Milestones is a web experience celebrating a decade of impactful digital experiences all around the world."/>
+    <meta name="twitter:title" content="Mobiquity"/>
+    <meta name="twitter:description" content="An immersive experience celebrating a decade of Mobiquity's digital impact around the globe."/>
     <meta name="twitter:image" content="https://mobiquitymilestones.com/assets/thumbnail/mobiquitymilestones-thumbnail.jpg"/>
     <link rel="manifest" href="https://mobiquitymilestones.com/site.json">
 
@@ -167,33 +167,40 @@
         <figure>
           <svg class="equilizer" width="32px" height="32px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
             <g transform="rotate(180 50 50)">
-            <rect x="6" y="20" width="8" height="0.2">
+            <rect x="6" y="20" width="8" height="2">
               <animate attributeName="height" calcMode="spline" values="25;37.5;5;25" times="0;0.33;0.66;1" dur="2s" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.6666666666666666s"></animate>
             </rect>
-            <rect x="22" y="20" width="8" height="0.2">
+            <rect x="22" y="20" width="8" height="2">
               <animate attributeName="height" calcMode="spline" values="25;37.5;5;25" times="0;0.33;0.66;1" dur="2s" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.3333333333333333s"></animate>
             </rect>
-            <rect x="38" y="20" width="8" height="0.2">
+            <rect x="38" y="20" width="8" height="2">
               <animate attributeName="height" calcMode="spline" values="25;37.5;5;25" times="0;0.33;0.66;1" dur="2s" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.8333333333333334s"></animate>
             </rect>
-            <rect x="54" y="20" width="8" height="0.2">
+            <rect x="54" y="20" width="8" height="2">
               <animate attributeName="height" calcMode="spline" values="25;37.5;5;25" times="0;0.33;0.66;1" dur="2s" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.16666666666666666s"></animate>
             </rect>
-            <rect x="70" y="20" width="8" height="0.2">
+            <rect x="70" y="20" width="8" height="2">
               <animate attributeName="height" calcMode="spline" values="25;37.5;5;25" times="0;0.33;0.66;1" dur="2s" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" ></animate>
             </rect>
-            <rect x="86" y="20" width="8" height="0.2">
+            <rect x="86" y="20" width="8" height="2">
               <animate attributeName="height" calcMode="spline" values="25;37.5;5;25" times="0;0.33;0.66;1" dur="2s" keySplines="0.5 0 0.5 1;0.5 0 0.5 1;0.5 0 0.5 1" repeatCount="indefinite" begin="-0.5s"></animate>
             </rect></g>
-            </svg>
+          </svg>
           <audio class="vo" src="" type="audio/mpeg"></audio>
         </figure>
+
+        <button class="btn bigBtn" id="playVO">
+          <span>Play</span>
+          <svg width="48" height="32" viewBox="0 0 32 32">
+            <use href="/assets/icons/icons.svg#play"></use>
+          </svg>
+        </button>
       </div>
       <nav>
 
         <button class="previousBtn hide" id="previousBtn"><span>Previous Milestone</span>
           <svg class="icon">
-            <use href="/assets/icons/icons.svg#arrow-up"></use>
+            <use href="/assets/icons/icons.svg#arrow-left"></use>
           </svg>
         </button>
 
@@ -218,7 +225,7 @@
 
         <button class="nextBtn hide" id="nextBtn"><span>Next Milestone</span>
           <svg class="icon">
-            <use href="/assets/icons/icons.svg#arrow-down"></use>
+            <use href="/assets/icons/icons.svg#arrow-right"></use>
           </svg>
         </button>
         
@@ -229,7 +236,7 @@
       <div class="inside center wide">
         <h4>Mobiquity Milestones</h4>
         <div class="text">
-          <p class="large">Mobiquity has made quite the journey over the past decade. We've worked together with amazing brands to design, build and market digital products & services that people enjoy using. Always starting with a human challenge and then applying the right technology to fix it.</p>
+          <p>Mobiquity has made quite the journey over the past decade. We've worked together with amazing brands to design, build and market digital products & services that people enjoy using. Always starting with a human challenge and then applying the right technology to fix it.</p>
           <p>Next to great products, we're also proud of the great culture we've built together. Where we nurture collaboration to ensure our talented and diverse group of people always comes up with the best possible solution.</p>
           <p>The Mobiquity Milestones celebrates our past decade. Each stop provides a glimpse into a point in time along that journey. As we move into the next decade, we are excited to gather many, many more of these memorable milestones.
           <p>And if you'd like to join us in that adventure as a client or a colleague, be sure to reach out!</p>

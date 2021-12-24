@@ -71,12 +71,17 @@ export default {
     aspect: 1,
     posX: 0,
     posY: 0,
-    posZ: 300
+    posZ: 270
   },
   platformCamera:{
     posX: 0,
     posY: 0,
     posZ: 60
+  },
+  globeCamera:{
+    posX: 0,
+    posY: 0,
+    posZ: 340
   },
   controls: {
     autoRotate: false,
@@ -84,7 +89,7 @@ export default {
     rotateSpeed: 0.5,
     zoomSpeed: 0.8,
     minDistance: 160,
-    maxDistance: 400,
+    maxDistance: 540,
     minPolarAngle: Math.PI / 5,
     maxPolarAngle: Math.PI / 2,
     minAzimuthAngle: -Infinity,

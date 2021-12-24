@@ -12,6 +12,7 @@ import Controls from './components/controls';
 //Other
 import Events from './events';
 import vars from './vars';
+import fx from './fx';
 
 //Elements
 import Globe from './elements/globe';
@@ -35,7 +36,7 @@ var composer, composer2, renderPass, renderPass2, distortPass, grainPass, fxaaPa
 
 var params = {
   enableNoise: true,
-  noiseSpeed: 0.0,
+  noiseSpeed: 0.1,
   noiseIntensity: 0.0,
 
   enableDistortion: true,
@@ -56,6 +57,14 @@ export default class Main {
   constructor(container) {
 
     vars.main = this;
+    vars.mobile = fx.isMobile();
+
+    if(vars.mobile){
+      Config.camera.posZ = 450;
+      Config.globeCamera.posZ = 540;
+      Config.platformCamera.posZ = 120;
+      Config.fog.near = 0.0014;
+    }
     
     this.container = container;
 
@@ -134,7 +143,7 @@ export default class Main {
     this.stars = new Stars(this);
     this.platform = new Platform(this);
 
-    this.camera.threeCamera.position.set(0, 0, 270);
+    this.camera.threeCamera.position.set(0, 0, Config.camera.posZ);
     //this.camera.threeCamera.rotation.set(-30 * THREE.Math.DEG2RAD, 0, 0);
     
     //this.overlay = new Overlay();
@@ -223,12 +232,12 @@ export default class Main {
   render() {
 
     // Call render function and pass in created scene and camera
-    this.renderer.render(this.scene, this.camera.threeCamera);
+    //this.renderer.render(this.scene, this.camera.threeCamera);
 
     distortPass.material.uniforms.baseIor.value = params.baseIor;
     distortPass.material.uniforms.bandOffset.value = params.bandOffset;
     
-   //composers[activeScene].render();
+   composers[activeScene].render();
     
     const delta = this.clock.getDelta();
 

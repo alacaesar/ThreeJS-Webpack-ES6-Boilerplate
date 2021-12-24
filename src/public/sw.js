@@ -1,19 +1,36 @@
-var CACHE_NAME = "Mobiquity-Milestones";
+var CACHE_NAME = "MobiquityMilestones";
 var urlsToCache = [
-    '/',
+  '/',
 ];
-self.addEventListener("install", function(event) {
-    event.waitUntil(caches.open(CACHE_NAME).then(function(cache) {
-        return cache.addAll(urlsToCache);
-    }));
+
+self.addEventListener("install", function (event) {
+  // Perform install steps
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      //console.log('Opened cache');
+      return cache.addAll(urlsToCache);
+    })
+  );
 });
-self.addEventListener('activate', (event) => {
-    const cleanup = async () => {
-        const cacheNames = await caches.keys();
-        const cachesToDelete = cacheNames.filter((cacheNames) => (cacheNames.startsWith(`${registration.scope}!`) && cacheNames !== CACHE_NAME));
-        await Promise.all(cachesToDelete.map(CACHE_NAME => {
-            return caches.delete(CACHE_NAME);
-        }))
-    };
-    event.waitUntil(cleanup());
+
+self.addEventListener('activate', function (event) {
+  event.waitUntil(
+    caches.keys().then(function (cacheNames) {
+      return Promise.all(
+        cacheNames.map(function (cacheName) {
+          if (cacheName != CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
+
+self.addEventListener("fetch", function (event) {
+  event.respondWith(
+    fetch(event.request).catch(function () {
+      return caches.match(event.request);
+    })
+  );
 });

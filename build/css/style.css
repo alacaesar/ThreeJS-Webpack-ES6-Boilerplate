@@ -24,6 +24,7 @@ p{
        -moz-user-select: none; /* Old versions of Firefox */
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
+    -webkit-tap-highlight-color:  rgba(255, 255, 255, 0); 
 }
 
 :root{
@@ -165,6 +166,11 @@ section.intro p{
     font-family: "DM Sans";
 }
 
+section.intro .inside > p.off{
+    font-size: 2.2em;
+    margin: 40px 0 40px;
+}
+
 section.intro .inside{
     text-align: center;
 }
@@ -190,11 +196,12 @@ section.intro .link{
 section.intro figure{
     position: relative;
     padding: 0;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 }
 
 section.intro figure svg.arc,
-section.intro figure svg.dots{
+section.intro figure svg.dots,
+section.intro figure svg.dots2{
     position: absolute;
     left: 50%;
     top: 50%;
@@ -204,7 +211,23 @@ section.intro figure svg.dots{
 }
 
 section.intro:not(.hide) figure svg.dots{
-    animation: spin 6s linear infinite;
+    animation: swing 8s linear infinite;
+}
+
+section.intro:not(.hide) figure svg.dots2{
+    animation: swing2 6s linear infinite;
+}
+
+@keyframes swing {
+    0%  { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) rotate(-80deg); }
+    100%{ transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+@keyframes swing2 {
+    0%  { transform: translate(-50%, -50%) rotate(0deg); }
+    50% { transform: translate(-50%, -50%) rotate(70deg); }
+    100%{ transform: translate(-50%, -50%) rotate(0deg); }
 }
 
 section.intro figure #ml1{
@@ -213,6 +236,7 @@ section.intro figure #ml1{
 section.intro figure #ml2{
     font-family: "Recife";
     font-size: 62px;
+    white-space: nowrap;
 }
 
 section.intro figure .off{
@@ -230,7 +254,7 @@ section.intro figure .off .letter span{
 
 .globe p{
     font-size: 1.2em;
-    line-height: .8em;
+    line-height: .8em; 
     color: var(--white);
     padding-bottom: 30px;
     text-align: center;
@@ -240,17 +264,28 @@ section.intro figure .off .letter span{
 /* about */
 section.about{
     position: fixed;
-    left: 40px;
-    top: 40px;
-    width: calc(100% - 80px);
-    height: calc(100% - 80px);
+    left: 60px;
+    top: 60px;
+    width: calc(100% - 120px);
+    height: calc(100% - 120px);
     background: rgba(0,43,126,.5);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border-radius: 20px;
 }
 
-section.about .inside{
-    max-width: 800px;
+section.about .text{
+    column-count: 2;
+    column-gap: 4%;
+}
+
+section.about h4{
+    color: #fff;
+    font-size: 3rem;
+    font-weight: 500;
+    font-family: "DM Sans";
+    text-align: center;
+    margin: 0 0 50px 0;
 }
 
 section.about .inside p{
@@ -425,7 +460,8 @@ ul.milestones li a svg{
 }
 
 ul.milestones li a:hover::before,
-ul.milestones li.hover a::before{
+ul.milestones li.hover a::before,
+ul.milestones li.focused a::before{
     height: 20px;
     background-color: var(--white);
 }
@@ -499,7 +535,8 @@ ul.milestones li.hover a svg{
     color: #fff;
     text-align: center;
     line-height: 10vw;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     position: fixed;
     top: 30%;
     left: 60%;
@@ -531,6 +568,29 @@ ul.milestones li.hover a svg{
 
 .statue svg rect{
     fill: var(--white);
+}
+.statue button.bigBtn{
+    position: absolute;
+    left: -10%;
+    top: -10%;
+    width: 120%;
+    height: 120%;
+    z-index: 1;
+    border: none;
+}
+.statue button.bigBtn::after,
+.statue button.bigBtn::before,
+.statue button.bigBtn svg.icon{
+    display: none;
+}
+.statue button.bigBtn span{
+    display: block;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+}
+.statue button.bigBtn svg{
+    display: none;
 }
 
 nav{
@@ -577,16 +637,17 @@ nav button svg.ring{
     pointer-events: none;
 }
 
-nav button:hover svg.ring{
-    transform: translate(-50%, -50%) scale(1.2);
-}
-
 nav button svg.icon{
     transition: transform .6s cubic-bezier(0.680, -0.550, 0.265, 1.550); /* easeInOutBack */
 }
 
-nav button:hover svg.icon{
-    transform: rotate(-90deg);
+@media (hover: hover) {
+    nav button:hover svg.ring{
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    nav button:hover svg.icon{
+        transform: rotate(-90deg);
+    }
 }
 
 /***********************/
@@ -793,16 +854,28 @@ i{
     header .logo{
         float: none;
     }
+    body.statue header{
+        transform: translateY(-200px);
+    }
 
     footer{
         display: none;
     }
 
     ul.milestones{
-        top: 8vh;
+        top: 2vh;
         left: 3vw;
         bottom: auto;
         width: 94vw;
+        transform: translateY(70px);
+    }
+
+    body.hold ul.milestones{
+        transform: translateY(70px);
+    }
+
+    body.statue ul.milestones{
+        transform: translateY(0px);
     }
 
     ul.milestones li a::before{
@@ -810,11 +883,17 @@ i{
         height: 4px;
     }
 
+    ul.milestones li a:hover::before, 
+    ul.milestones li.hover a::before,
+    ul.milestones li.focused a::before{
+        height: 8px;
+    }
+
     section.intro figure{
-        transform: scale(.6);
+        transform: scale(.7);
         margin-bottom: 30px;
     }
-    section.intro p{
+    section.intro .inside > p.off{
         font-size: 1.6em;
         margin-bottom: 30px;
     }
@@ -822,7 +901,113 @@ i{
         margin-bottom: 0;
     }
 
+    section.about{
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        overflow-y: scroll;
+    }
+    section.about .inside{
+        position: static;
+        transform: none;
+        width: calc(100% - 60px);
+        padding: 60px 30px;
+    }
+    section.about .text{
+        column-count: 1;
+    }
+    section.about .inside p{
+        font-size: 1.1rem;
+    }
+    section.about .actions{
+        margin-top: 30px;
+    }
+
+    section.statue .inside{
+        left: 0px;
+        width: 100%;
+        min-width: auto;
+        top: 80px;
+        transform: none;
+        height: calc(100% - 80px);
+        overflow-y: scroll;
+        padding: 0 30px 150px;
+        box-sizing: border-box;
+    }
+
+    section.statue .inside .info{
+        margin-top: 55vh;
+    }
+
+    .statue h3{
+        font-size: 2.5em;
+    }
+    .statue p{
+        font-size: 1.2em;
+    }
+
+    .statue button.bigBtn{
+        width: 48px;
+        background: var(--mblue);
+        height: 32px;
+        padding: 0;
+        position: static;
+    }
+    .statue button.bigBtn svg.icon{
+        display: block;
+    }
+    .statue .inside.cursor-play figure{
+        display: none;   
+    }
+    .statue .inside.cursor-pause .bigBtn{
+        display: none;
+    }
+    .statue button.bigBtn span{
+        display: none;
+    }
+
+    nav{
+        flex-direction: row;
+        background-color: rgba(0, 61, 178, .6);
+        left: 0;
+        bottom: 0;
+        top: auto;
+        transform: none;
+        width: 100%;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    nav button{
+        flex: 1;
+        margin: 0;
+    }
+    nav button svg.ring{
+        display: none;
+    }
+    nav button.hide{
+        display: block;
+    }
+
+    .curtain h2{
+        font-size: 15vw;
+        width: 100vw;
+    }
+    .curtain .yearBubble{
+        width: 30vw;
+        height: 30vw;
+        font-size: 5vw;
+        line-height: 30vw;
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+    }
+    .curtain h2 div{
+        margin: 2vh 0;
+    }
+
     .medium{
         width: 80%;
     }
+    
   }

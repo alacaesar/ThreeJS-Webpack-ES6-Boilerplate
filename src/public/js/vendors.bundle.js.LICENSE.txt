@@ -1,12 +1,12 @@
-/*! ../../../build/three.module.js */
-
-/*! ../postprocessing/MaskPass.js */
-
-/*! ../postprocessing/Pass.js */
-
-/*! ../postprocessing/ShaderPass.js */
-
 /*! ../shaders/CopyShader.js */
+
+/*! ./MaskPass.js */
+
+/*! ./Pass.js */
+
+/*! ./ShaderPass.js */
+
+/*! three */
 
 /*!**********************************************!*\
   !*** ./node_modules/animejs/lib/anime.es.js ***!
@@ -23,6 +23,10 @@
 /*!**************************************************************!*\
   !*** ./node_modules/simplex-noise/dist/esm/simplex-noise.js ***!
   \**************************************************************/
+
+/*!***************************************************************!*\
+  !*** ./node_modules/three/examples/jsm/loaders/GLTFLoader.js ***!
+  \***************************************************************/
 
 /*!***************************************************************!*\
   !*** ./node_modules/three/examples/jsm/shaders/CopyShader.js ***!
@@ -51,3 +55,9 @@
 /*!**************************************************************************!*\
   !*** ./node_modules/three/examples/jsm/postprocessing/EffectComposer.js ***!
   \**************************************************************************/
+
+/**
+ * @license
+ * Copyright 2010-2021 Three.js Authors
+ * SPDX-License-Identifier: MIT
+ */

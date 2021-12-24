@@ -188,8 +188,10 @@ export default class Globe {
               `
     });
 
+    const cylinderGeom = vars.mobile ? new THREE.CylinderGeometry(2, 6, 34, 16, 1, true) : new THREE.CylinderGeometry(1, 3, 24, 16, 1, true);
+
     const mesh = new THREE.Mesh(
-      new THREE.CylinderGeometry(1, 3, 24, 16, 1, true),
+      cylinderGeom,
       grassMaterial
     )
     mesh.name = i;

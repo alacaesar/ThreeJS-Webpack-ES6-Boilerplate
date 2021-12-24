@@ -55,7 +55,7 @@ export default class Earth {
     this.object.add(clouds);
 
     this.object.rotation.y = 140 * THREE.Math.DEG2RAD; 
-    this.object.position.z = -800;
+    this.object.position.z = -1000;
 
     this.scene.add(this.object);
 

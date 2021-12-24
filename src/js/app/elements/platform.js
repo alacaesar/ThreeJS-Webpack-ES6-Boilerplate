@@ -1,7 +1,6 @@
 // Global imports -
 import * as THREE from 'three';
-import { GLTFLoader } from '../loaders/GLTFLoader';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import SimplexNoise from 'simplex-noise';
 
 import Material from '../components/material';
@@ -112,7 +111,7 @@ export default class Platform {
         this.addModel();
         //this.addObject(main);
 
-        object.position.set(-10, -5, 0);
+        if(!vars.mobile) object.position.set(-10, -5, 0);
 
         this.scene.add(object);
 

@@ -10,8 +10,7 @@
     {
       "src": "/assets/icons/icon-384.png",
       "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "/assets/icons/icon-512.png",

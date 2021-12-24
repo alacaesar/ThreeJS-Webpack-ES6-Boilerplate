@@ -96,41 +96,19 @@ export default class Timeline {
 
             //vars.main.earth.animateCut();
             vars.main.addGlobe();
-
+            
             anime({
-                targets:vars.localPlanes,
+                targets: vars.localPlanes,
                 constant: 0,
-                duration: 666,
-                easing: "easeInOutCubic",
+                duration: 2222,
+                easing: "easeInOutExpo",
+                delay:111,
                 complete:()=>{
                     vars.isCutActive = true;
                 }
-            })
+            });
 
-        }, 4000);
-
-        /*
-        anime.timeline({loop:false,})
-          .add({
-            targets:main.camera.threeCamera.position,
-            z:250,
-            y:0,
-            duration:2000,
-            easing:"easeInOutCubic",
-            delay:1000,
-          }).add({
-            targets:main.camera.threeCamera.rotation,
-            x:0,
-            duration:2000,
-            easing:"easeInOutCubic"
-          }, '-=2000').add({
-            targets: main.earth.object.rotation,
-            y: -110 * THREE.Math.DEG2RAD,
-            x: 30 * THREE.Math.DEG2RAD,
-            duration:6000,
-            easing:"easeInOutQuad"
-          }, '-=2000');
-          */
+        }, 3333);
                 
       },
       globe: (callback) => {
@@ -165,11 +143,14 @@ export default class Timeline {
         this.fixSections([3]);
         this.overlay.animateCurtain("IN");
         document.body.classList.remove("hold");
+        document.body.classList.add("statue");
       },
       section: (n, callback) => {
         //console.log('[ timeline : section'+n+' ]');
         this.fixSections([2, 4]);
+        document.querySelector(".statue .inside").scrollTo(0,0);
         this.overlay.animate(section);
+        document.body.classList.add("statue");
       },
       about: (n, callback) => {
         //console.log('[ timeline : section'+n+' ]');
@@ -214,5 +195,6 @@ export default class Timeline {
         sections[i].classList.add("hide");
       }
     }
+    document.body.classList.remove("statue");
   }
 }

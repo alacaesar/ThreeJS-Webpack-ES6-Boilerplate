@@ -12,8 +12,6 @@
 
 /*! ../fx */
 
-/*! ../loaders/GLTFLoader */
-
 /*! ../vars */
 
 /*! ./../css/app.scss */
@@ -65,6 +63,8 @@
 /*! simplex-noise */
 
 /*! three */
+
+/*! three/examples/jsm/loaders/GLTFLoader */
 
 /*! three/examples/jsm/postprocessing/EffectComposer.js */
 
@@ -148,10 +148,6 @@
 
 /*!******************************************!*\
   !*** ./src/js/app/elements/rectLight.js ***!
-  \******************************************/
-
-/*!******************************************!*\
-  !*** ./src/js/app/loaders/GLTFLoader.js ***!
   \******************************************/
 
 /*!*******************************************!*\

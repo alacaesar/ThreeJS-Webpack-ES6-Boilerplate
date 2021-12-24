@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import anime, { timeline } from "animejs";
 import vars from "./vars";
+import config from '../data/config';
 
 let audio, equilizer, statueInside, readTimer, j = 0, audioPaused = true;
 
@@ -34,7 +35,7 @@ export default class Events {
     window.addEventListener("focus", () => {
         vars.isPaused = false; 
         main.render();
-        if(!musicBtn.classList.contains("paused")){
+        if(!vars.mobile && !musicBtn.classList.contains("paused")){
           ambient.play();
         }
     } );
@@ -56,7 +57,8 @@ export default class Events {
     equilizer = document.querySelector(".equilizer");
     equilizer.querySelectorAll("animate").forEach(element => { element.setAttribute("repeatCount", "0"); });
     statueInside = document.querySelector(".statue .inside");
-    statueInside.addEventListener("click", (e)=> this.onAudioClick(e), false );
+    let voiceOverButton = statueInside.querySelector(".bigBtn");
+    voiceOverButton.addEventListener("click", (e)=> this.onAudioClick(e), false );
 
     main.container.addEventListener('click', (e)=> this.onMouseDownHandler(e), false);
 
@@ -182,16 +184,18 @@ export default class Events {
       }
     }, 0).add({
       targets:vars.main.camera.threeCamera.position,
-      z: 340,
+      z: config.globeCamera.posZ,
       duration: 2000,
-      easing: "easeInOutCubic"
+      easing: "easeInOutCubic",
     }, 0);
 
     vars.main.timeline.goto.globe();
 
-    ambient.volume = .2;
-    ambient.play();
-    musicBtn.classList.remove("paused");
+    if(!vars.mobile){
+      ambient.volume = .2;
+      ambient.play();
+      musicBtn.classList.remove("paused");
+    }
 
     setTimeout(()=>{
       vars.main.globe.addMarkers();
@@ -262,6 +266,11 @@ export default class Events {
 
     vars.isMouseActive = false;
     vars.isPauseLoopFunctions = true;
+
+    let focused = document.querySelector(".milestones li.focused");
+    if(focused){
+      focused.classList.remove("focused");
+    }
 
     vars.main.warp("RIN", ()=>{
       vars.main.flipScene(0);
@@ -363,6 +372,7 @@ export default class Events {
       this.startClickHandler();
     }
     this.gotoMilestone(id);
+    document.querySelector(".milestones li.hover").classList.remove("hover");
   }
 
   gotoMilestone(id){
@@ -370,7 +380,7 @@ export default class Events {
     let milestone = vars.milestones[id];
 
     j = 0;
-    this.startClickHandler();
+    //this.startClickHandler();
 
     vars.currentMilestone = milestone;
 
